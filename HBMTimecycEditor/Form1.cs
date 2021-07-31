@@ -3,10 +3,12 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using yt_DesignUI;
+using yt_DesignUI.Controls;
 
 namespace HBMTimecycEditor
 {
-    public partial class Form1 : Form
+    public partial class Form1 : ShadowedForm
     {
         string gtaPath = "";
         string[] timecyc;
@@ -15,6 +17,7 @@ namespace HBMTimecycEditor
         public Form1()
         {
             InitializeComponent();
+            Animator.Start();
 
             try
             {
@@ -23,6 +26,7 @@ namespace HBMTimecycEditor
                     gtaPath = key.GetValue("path").ToString();
                 }
                 pathTB.Text = gtaPath;
+                pathTB.SelectionStart = pathTB.TextLength;
                 timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
             }
             catch (Exception)
@@ -39,7 +43,7 @@ namespace HBMTimecycEditor
         {
             if (timeCB.SelectedIndex > 0 && weatherCB.SelectedIndex > 0)
             {
-                GetDrawDist(weatherCB.SelectedIndex, timeCB.SelectedIndex);
+                GetDrawDistValuePosition(weatherCB.SelectedIndex, timeCB.SelectedIndex);
                 drawTB.Text = timecyc[lineNum].Substring(index, length);
             }
             else
@@ -100,9 +104,17 @@ namespace HBMTimecycEditor
         }
         private void EditBtn_Click(object sender, EventArgs e)
         {
+            if (drawTB.Text == "" ||
+                int.Parse(drawTB.Text) < -3600 ||
+                int.Parse(drawTB.Text) > 3600)
+            {
+                MessageBox.Show("Enter a value between 3600 and -3600");
+                drawTB.Text = "";
+                return;
+            }
             if (weatherCB.SelectedIndex > 0 && timeCB.SelectedIndex > 0)
             {
-                ReplaceDD();
+                ReplaceDDValue();
             }
             else if (weatherCB.SelectedIndex == 0 && timeCB.SelectedIndex == 0)
             {
@@ -110,8 +122,8 @@ namespace HBMTimecycEditor
                 {
                     for (int j = 1; j < timeCB.Items.Count; j++)
                     {
-                        GetDrawDist(i, j);
-                        ReplaceDD();
+                        GetDrawDistValuePosition(i, j);
+                        ReplaceDDValue();
                     }
                 }
             }
@@ -125,10 +137,10 @@ namespace HBMTimecycEditor
                 for (int i = 1; i < count; i++)
                 {
                     if (weatherCB.SelectedIndex == 0)
-                        GetDrawDist(i, timeCB.SelectedIndex);
+                        GetDrawDistValuePosition(i, timeCB.SelectedIndex);
                     else
-                        GetDrawDist(weatherCB.SelectedIndex, i);
-                    ReplaceDD();
+                        GetDrawDistValuePosition(weatherCB.SelectedIndex, i);
+                    ReplaceDDValue();
                 }
             }
 
@@ -137,7 +149,19 @@ namespace HBMTimecycEditor
         }
         #endregion
 
-        private void GetDrawDist(int weatherIndex, int timeIndex)
+        #region Remove focus
+        private void Form1_Click(object sender, EventArgs e)
+        {
+            editBtn.Focus();
+        }
+        private void DDpanel_Click(object sender, EventArgs e)
+        {
+            editBtn.Focus();
+        }
+        #endregion
+
+        /// <summary>Gets: the starting index of the draw distance value and his length</summary>
+        private void GetDrawDistValuePosition(int weatherIndex, int timeIndex)
         {
             for (lineNum = 0; lineNum < timecyc.Length; lineNum++)
             {
@@ -183,6 +207,7 @@ namespace HBMTimecycEditor
                 }
             }
         }
+        /// <summary>Update path and draw dist value and re-read timecyc.dat</summary>
         private void UpdateFields()
         {
             gtaPath = pathTB.Text;
@@ -199,7 +224,8 @@ namespace HBMTimecycEditor
                 weatherCB.SelectedIndex = 1;
             weatherCB.SelectedIndex = wSel;
         }
-        private void ReplaceDD()
+        /// <summary>Replace timecyc's draw distance value without rewrite timecyc.dat</summary>
+        private void ReplaceDDValue()
         {
             timecyc[lineNum] = timecyc[lineNum].Remove(index, length);
             timecyc[lineNum] = timecyc[lineNum].Insert(index, drawTB.Text + ".0");
