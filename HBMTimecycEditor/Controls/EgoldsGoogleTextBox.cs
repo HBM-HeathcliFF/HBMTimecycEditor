@@ -38,7 +38,7 @@ namespace yt_DesignUI
             get => tbInput.Text;
             set
             {
-                tbInput.Text = value;
+                tbInput.Text = value.ToString();
                 TextPreviewAction(true);
                 TextPreviewAction(false);
             }
@@ -124,7 +124,7 @@ namespace yt_DesignUI
         {
             base.OnCreateControl();
 
-            TextPreviewAction(TextInput.Length > 0);
+            TextPreviewAction(tbInput.Text.Length > 0);
         }
 
         private void AdjustTextBoxInput()
@@ -234,7 +234,7 @@ namespace yt_DesignUI
             }
             else
             {
-                if (TextInput.Length == 0)
+                if (tbInput.Text.Length == 0)
                 {
                     LocationTextPreviewAnim = new Animation("TextPreviewLocationY" + Handle, Invalidate, LocationTextPreviewAnim.Value, tbInput.Location.Y);
                     FontSizeTextPreviewAnim = new Animation("TextPreviewFontSize" + Handle, Invalidate, FontSizeTextPreviewAnim.Value, Font.Size);
