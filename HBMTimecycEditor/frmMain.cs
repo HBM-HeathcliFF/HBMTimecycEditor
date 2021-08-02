@@ -6,23 +6,62 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using yt_DesignUI;
 using yt_DesignUI.Controls;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Linq;
 
 namespace HBMTimecycEditor
 {
     public partial class frmMain : ShadowedForm
     {
+        #region WinAPI
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int ShowWindow_Restore = 9;
+        #endregion
+
         #region Variables
         string gtaPath = "";
         string[] timecyc;
         Position drawDist = new Position();
         Position fogDist = new Position();
-        Position sprtBrght = new Position();
+        Position spriteBrght = new Position();
+        Position lightOnGround = new Position();
         List<Position> positions = new List<Position>();
+        const int OFFSET = 42;
         #endregion
 
         public frmMain()
         {
             InitializeComponent();
+            
+            #region Protection against restarting
+            // Protection against restarting the application
+            // with the subsequent activation of an existing window
+            Process this_process = Process.GetCurrentProcess();
+            Process[] other_processes =
+                Process.GetProcessesByName(this_process.ProcessName).Where(pr => pr.Id != this_process.Id).ToArray();
+
+            foreach (var pr in other_processes)
+            {
+                pr.WaitForInputIdle(1000);
+
+                IntPtr hWnd = pr.MainWindowHandle;
+                if (hWnd == IntPtr.Zero) continue;
+
+                ShowWindow(hWnd, ShowWindow_Restore);
+                SetForegroundWindow(hWnd);
+                Environment.Exit(0);
+            }
+            #endregion
+            
             Animator.Start();
 
             try
@@ -31,50 +70,98 @@ namespace HBMTimecycEditor
                 {
                     gtaPath = key.GetValue("path").ToString();
                 }
-                pathTB.Text = gtaPath;
-                pathTB.SelectionStart = pathTB.TextLength;
+                tbPath.Text = gtaPath;
+                tbPath.SelectionStart = tbPath.TextLength;
                 timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
             }
             catch (Exception)
             {
-                DDpanel.Visible = false;
+                pnlDrawDist.Visible = false;
             }
 
-            weatherCB.SelectedIndex = 0;
-            timeCB.SelectedIndex = 0;
+            cbWeather.SelectedIndex = 0;
+            cbTime.SelectedIndex = 0;
 
-            Position drawDist = new Position(Number.DRAW_DIST_VALUE, ref drawTB);
-            Position fogDist = new Position(Number.FOG_DIST_VALUE, ref fogTB);
-            Position sprtBrght = new Position(Number.SPRITE_BRIGHT_VALUE, ref spbrTB);
+            Position lightOnGrnd = new Position(Number.LIGHT_ON_GROUND, ref tbLightOnGround);
+            Position fogDist = new Position(Number.FOG_DIST_VALUE, ref tbFog);
+            Position drawDist = new Position(Number.DRAW_DIST_VALUE, ref tbDraw);
+            Position sprtBrght = new Position(Number.SPRITE_BRIGHT_VALUE, ref tbSpriteBright);
 
-            positions.AddRange(new Position[] { drawDist, fogDist, sprtBrght });
+            positions.AddRange(new Position[] { lightOnGrnd, fogDist, drawDist, sprtBrght });
         }
 
-        #region ComboBoxes
-        private void CBox_SelectedIndexChanged()
+        private async void TgglMultiselect_CheckedChanged(object sender)
         {
-            if (timeCB.SelectedIndex > 0 && weatherCB.SelectedIndex > 0)
+            int Y = pnlEdit.Location.Y, defHeight = this.Height;
+            if (tgglMultiselect.Checked)
             {
-                GetPosition(weatherCB.SelectedIndex, timeCB.SelectedIndex, positions);
-                drawTB.Text = timecyc[drawDist.LineNum].Substring(drawDist.Index, drawDist.Length);
-                fogTB.Text = timecyc[fogDist.LineNum].Substring(fogDist.Index, fogDist.Length);
-                spbrTB.Text = timecyc[sprtBrght.LineNum].Substring(sprtBrght.Index, sprtBrght.Length);
+                pnlOneSelect.Visible = false;
+                while (pnlEdit.Location.Y > Y - OFFSET)
+                {
+                    await Task.Delay(1);
+                    this.Height -= pnlEdit.Location.Y / 5;
+                    pnlEdit.Location = new Point(pnlEdit.Location.X,
+                        pnlEdit.Location.Y - pnlEdit.Location.Y / 5);
+                }
+                pnlEdit.Location = new Point(pnlEdit.Location.X, Y - OFFSET);
+                this.Height = defHeight - OFFSET;
+
+                tgglMultiselect.Text = "";
+                btnChange.Visible = true;
+                FreezeTgglMultiselect();
+                new frmMultiselect(this).Show();
             }
             else
             {
-                drawTB.Text = "";
-                fogTB.Text = "";
-                spbrTB.Text = "";
+                pnlOneSelect.Visible = true;
+                while (pnlEdit.Location.Y < Y + OFFSET)
+                {
+                    await Task.Delay(1);
+                    this.Height += (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1;
+                    pnlEdit.Location = new Point(pnlEdit.Location.X,
+                        pnlEdit.Location.Y + (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1);
+                }
+                pnlEdit.Location = new Point(pnlEdit.Location.X, Y + OFFSET);
+                this.Height = defHeight + OFFSET;
+
+                tgglMultiselect.Text = "Multiselect";
+                btnChange.Visible = false;
             }
-            spbrTB.SelectionStart = spbrTB.TextLength;
         }
-        private void WeatherCB_SelectedIndexChanged(object sender, EventArgs e)
+        private void FreezeTgglMultiselect()
         {
-            CBox_SelectedIndexChanged();
+            tgglMultiselect.Enabled = false;
+            tgglMultiselect.BackColorON = Color.FromArgb(87, 175, 125);
+            tgglMultiselect.Refresh();
         }
-        private void TimeCB_SelectedIndexChanged(object sender, EventArgs e)
+
+        #region ComboBoxes
+        private void ComboBox_SelectedIndexChanged()
         {
-            CBox_SelectedIndexChanged();
+            if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
+            {
+                GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, positions);
+                tbDraw.Text = timecyc[drawDist.LineNum].Substring(drawDist.Index, drawDist.Length);
+                tbFog.Text = timecyc[fogDist.LineNum].Substring(fogDist.Index, fogDist.Length);
+                tbSpriteBright.Text = timecyc[spriteBrght.LineNum].Substring(spriteBrght.Index, spriteBrght.Length);
+                tbLightOnGround.Text = timecyc[lightOnGround.LineNum].Substring(lightOnGround.Index, lightOnGround.Length);
+            }
+            else
+            {
+                tbDraw.Text = "";
+                tbFog.Text = "";
+                tbSpriteBright.Text = "";
+                tbLightOnGround.Text = "";
+            }
+            tbSpriteBright.SelectionStart = tbSpriteBright.TextLength;
+        }
+        private void CbWeather_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox_SelectedIndexChanged();
+        }
+        private void CbTime_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox_SelectedIndexChanged();
         }
         #endregion
 
@@ -87,29 +174,33 @@ namespace HBMTimecycEditor
                 textBox.SelectionStart = textBox.TextLength;
             }
         }
-        private void DrawTB_TextChanged(object sender, EventArgs e)
+        private void TbDraw_TextChanged(object sender, EventArgs e)
         {
-            Filter(drawTB);
+            Filter(tbDraw);
         }
-        private void FogTB_TextChanged(object sender, EventArgs e)
+        private void TbFog_TextChanged(object sender, EventArgs e)
         {
-            Filter(fogTB);
+            Filter(tbFog);
         }
-        private void SpbrTB_TextChanged(object sender, EventArgs e)
+        private void TbSpriteBright_TextChanged(object sender, EventArgs e)
         {
-            Filter(spbrTB);
+            Filter(tbSpriteBright);
         }
-        private void PathTB_TextChanged(object sender, EventArgs e)
+        private void TbLightOnGround_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists($@"{pathTB.Text}\data\timecyc.dat"))
+            Filter(tbLightOnGround);
+        }
+        private void TbPath_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists($@"{tbPath.Text}\data\timecyc.dat"))
                 UpdateFields();
             else
-                DDpanel.Visible = false;
+                pnlDrawDist.Visible = false;
         }
         #endregion
 
         #region Buttons
-        private void BrowseBtn_Click(object sender, EventArgs e)
+        private void BtnBrowse_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
             {
@@ -124,59 +215,67 @@ namespace HBMTimecycEditor
                 {
                     if (File.Exists($@"{fbd.SelectedPath}\data\timecyc.dat"))
                     {
-                        pathTB.Text = fbd.SelectedPath;
+                        tbPath.Text = fbd.SelectedPath;
                         UpdateFields();
                     }
                     else MessageBox.Show("Указанная папка не GTA", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
-        private void EditBtn_Click(object sender, EventArgs e)
+        private void BtnEdit_Click(object sender, EventArgs e)
         {
             #region DataValidation
-            if (drawTB.Text == "" && fogTB.Text == "" && spbrTB.Text == "")
+            if (tbDraw.Text == "" && tbFog.Text == "" && tbSpriteBright.Text == "" && tbLightOnGround.Text == "")
             {
                 MessageBox.Show("Enter a value in at least one of the fields");
                 return;
             }
             else
             {
-                if (drawTB.Text != "" &&
-                (double.Parse(drawTB.Text.Replace(".", ",")) < -3600 ||
-                double.Parse(drawTB.Text.Replace(".", ",")) > 3600))
+                if (tbDraw.Text != "" &&
+                (double.Parse(tbDraw.Text.Replace(".", ",")) < -3600 ||
+                double.Parse(tbDraw.Text.Replace(".", ",")) > 3600))
                 {
                     MessageBox.Show("Enter a value between 3600 and -3600 in the Draw distance field");
-                    drawTB.Text = "";
+                    tbDraw.Text = "";
                     return;
                 }
-                if (fogTB.Text != "" &&
-                    (double.Parse(fogTB.Text.Replace(".", ",")) < -3600 ||
-                    double.Parse(fogTB.Text.Replace(".", ",")) > 3600))
+                if (tbFog.Text != "" &&
+                    (double.Parse(tbFog.Text.Replace(".", ",")) < -3600 ||
+                    double.Parse(tbFog.Text.Replace(".", ",")) > 3600))
                 {
                     MessageBox.Show("Enter a value between 3600 and -3600 in the Fog distance field");
-                    fogTB.Text = "";
+                    tbFog.Text = "";
                     return;
                 }
-                if (spbrTB.Text != "" &&
-                    (double.Parse(spbrTB.Text.Replace(".", ",")) < -0.1 ||
-                    double.Parse(spbrTB.Text.Replace(".", ",")) > 25.4))
+                if (tbSpriteBright.Text != "" &&
+                    (double.Parse(tbSpriteBright.Text.Replace(".", ",")) < -0.1 ||
+                    double.Parse(tbSpriteBright.Text.Replace(".", ",")) > 25.4))
                 {
                     MessageBox.Show("Enter a value between -0.1 and 25.4 in the Sprite brightness field");
-                    spbrTB.Text = "";
+                    tbSpriteBright.Text = "";
+                    return;
+                }
+                if (tbLightOnGround.Text != "" &&
+                    (double.Parse(tbLightOnGround.Text.Replace(".", ",")) < -0.1 ||
+                    double.Parse(tbLightOnGround.Text.Replace(".", ",")) > 25.4))
+                {
+                    MessageBox.Show("Enter a value between -0.1 and 25.4 in the Light on ground field");
+                    tbLightOnGround.Text = "";
                     return;
                 }
             }
             #endregion
 
-            if (weatherCB.SelectedIndex > 0 && timeCB.SelectedIndex > 0)
+            if (cbWeather.SelectedIndex > 0 && cbTime.SelectedIndex > 0)
             {
                 ReplaceValues(positions);
             }
-            else if (weatherCB.SelectedIndex == 0 && timeCB.SelectedIndex == 0)
+            else if (cbWeather.SelectedIndex == 0 && cbTime.SelectedIndex == 0)
             {
-                for (int i = 1; i < weatherCB.Items.Count; i++)
+                for (int i = 1; i < cbWeather.Items.Count; i++)
                 {
-                    for (int j = 1; j < timeCB.Items.Count; j++)
+                    for (int j = 1; j < cbTime.Items.Count; j++)
                     {
                         GetPosition(i, j, positions);
                         ReplaceValues(positions);
@@ -186,19 +285,19 @@ namespace HBMTimecycEditor
             else
             {
                 int count;
-                if (weatherCB.SelectedIndex == 0)
-                    count = weatherCB.Items.Count;
+                if (cbWeather.SelectedIndex == 0)
+                    count = cbWeather.Items.Count;
                 else
-                    count = timeCB.Items.Count;
+                    count = cbTime.Items.Count;
                 for (int i = 1; i < count; i++)
                 {
-                    if (weatherCB.SelectedIndex == 0)
+                    if (cbWeather.SelectedIndex == 0)
                     {
-                        GetPosition(i, timeCB.SelectedIndex, positions);
+                        GetPosition(i, cbTime.SelectedIndex, positions);
                     }
                     else
                     {
-                        GetPosition(weatherCB.SelectedIndex, i, positions);
+                        GetPosition(cbWeather.SelectedIndex, i, positions);
                     }
                     ReplaceValues(positions);
                 }
@@ -207,16 +306,24 @@ namespace HBMTimecycEditor
             File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
             MessageBox.Show("Done!");
         }
+        private void BtnChange_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms["frmMultisel"] == null)
+            {
+                FreezeTgglMultiselect();
+                new frmMultiselect(this).Show();
+            }
+        }
         #endregion
 
         #region Remove focus
-        private void Form1_Click(object sender, EventArgs e)
+        private void FrmMain_Click(object sender, EventArgs e)
         {
-            editBtn.Focus();
+            btnEdit.Focus();
         }
-        private void DDpanel_Click(object sender, EventArgs e)
+        private void PnlOneSelect_Click(object sender, EventArgs e)
         {
-            editBtn.Focus();
+            btnEdit.Focus();
         }
         #endregion
 
@@ -227,8 +334,8 @@ namespace HBMTimecycEditor
             {
                 for (position.LineNum = 0; position.LineNum < timecyc.Length; position.LineNum++)
                 {
-                    if (timecyc[position.LineNum].Contains($@"//{weatherCB.Items[weatherIndex]}") ||
-                        timecyc[position.LineNum].Contains($@" {weatherCB.Items[weatherIndex]}"))
+                    if (timecyc[position.LineNum].Contains($@"//{cbWeather.Items[weatherIndex]}") ||
+                        timecyc[position.LineNum].Contains($@" {cbWeather.Items[weatherIndex]}"))
                     {
                         string[] numbers = null;
                         for (int i = 0; i < timeIndex;)
@@ -274,26 +381,27 @@ namespace HBMTimecycEditor
                     }
                 }
             }
-            drawDist = positions[0];
+            lightOnGround = positions[3];
             fogDist = positions[1];
-            sprtBrght = positions[2];
+            drawDist = positions[0];
+            spriteBrght = positions[2];
         }
         /// <summary>Update path and draw dist value and re-read timecyc.dat</summary>
         private void UpdateFields()
         {
-            gtaPath = pathTB.Text;
+            gtaPath = tbPath.Text;
             timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
             Registry.CurrentUser.CreateSubKey(@"Software\HBMDrawDistEditor").SetValue("path", gtaPath);
-            DDpanel.Visible = true;
-            if (!editBtn.Enabled)
-                editBtn.Enabled = true;
+            pnlDrawDist.Visible = true;
+            if (!btnEdit.Enabled)
+                btnEdit.Enabled = true;
 
-            int wSel = weatherCB.SelectedIndex;
-            if (weatherCB.SelectedIndex != 0)
-                weatherCB.SelectedIndex = 0;
+            int wSel = cbWeather.SelectedIndex;
+            if (cbWeather.SelectedIndex != 0)
+                cbWeather.SelectedIndex = 0;
             else
-                weatherCB.SelectedIndex = 1;
-            weatherCB.SelectedIndex = wSel;
+                cbWeather.SelectedIndex = 1;
+            cbWeather.SelectedIndex = wSel;
         }
         /// <summary>Replace timecyc's draw distance value without rewrite timecyc.dat</summary>
         private void ReplaceValues(List<Position> positions)

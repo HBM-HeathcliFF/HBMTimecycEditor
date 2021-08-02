@@ -6,7 +6,8 @@ namespace HBMTimecycEditor
     {
         SPRITE_BRIGHT_VALUE = 24,
         DRAW_DIST_VALUE = 28,
-        FOG_DIST_VALUE = 29
+        FOG_DIST_VALUE = 29,
+        LIGHT_ON_GROUND = 30
     }
 
     class Position

@@ -7,7 +7,7 @@
     <ProjectGuid>{86BBD8FD-982B-4EAA-9143-9F0A60343B0E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HBMTimecycEditor</RootNamespace>
-    <AssemblyName>HBM Draw distance editor</AssemblyName>
+    <AssemblyName>HBM Timecyc Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,6 +38,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HBM Draw distance editor, Version=1.1.1.2, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -97,11 +98,20 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMultiselect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMultiselect.Designer.cs">
+      <DependentUpon>frmMultiselect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMultiselect.resx">
+      <DependentUpon>frmMultiselect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
