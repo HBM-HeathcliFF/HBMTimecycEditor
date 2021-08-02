@@ -423,10 +423,10 @@ namespace HBMTimecycEditor
                     }
                 }
             }
-            lightOnGround = positions[3];
+            lightOnGround = positions[0];
             fogDist = positions[1];
-            drawDist = positions[0];
-            spriteBrght = positions[2];
+            drawDist = positions[2];
+            spriteBrght = positions[3];
         }
         /// <summary>Update path and draw dist value and re-read timecyc.dat</summary>
         private void UpdateFields()
