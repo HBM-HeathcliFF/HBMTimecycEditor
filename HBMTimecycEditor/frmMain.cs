@@ -229,7 +229,7 @@ namespace HBMTimecycEditor
             #region DataValidation
             if (tbDraw.Text == "" && tbFog.Text == "" && tbSpriteBright.Text == "" && tbLightOnGround.Text == "")
             {
-                MessageBox.Show("Enter a value in at least one of the fields");
+                MessageBox.Show("Enter a value in at least one of the fields".Translate());
                 return;
             }
             else
@@ -238,7 +238,7 @@ namespace HBMTimecycEditor
                 (double.Parse(tbDraw.Text.Replace(".", ",")) < -3600 ||
                 double.Parse(tbDraw.Text.Replace(".", ",")) > 3600))
                 {
-                    MessageBox.Show("Enter a value between 3600 and -3600 in the Draw distance field");
+                    MessageBox.Show("Enter a value between -3600 and 3600 in the Draw distance field".Translate());
                     tbDraw.Text = "";
                     return;
                 }
@@ -246,7 +246,7 @@ namespace HBMTimecycEditor
                     (double.Parse(tbFog.Text.Replace(".", ",")) < -3600 ||
                     double.Parse(tbFog.Text.Replace(".", ",")) > 3600))
                 {
-                    MessageBox.Show("Enter a value between 3600 and -3600 in the Fog distance field");
+                    MessageBox.Show("Enter a value between -3600 and 3600 in the Fog distance field".Translate());
                     tbFog.Text = "";
                     return;
                 }
@@ -254,7 +254,7 @@ namespace HBMTimecycEditor
                     (double.Parse(tbSpriteBright.Text.Replace(".", ",")) < -0.1 ||
                     double.Parse(tbSpriteBright.Text.Replace(".", ",")) > 25.4))
                 {
-                    MessageBox.Show("Enter a value between -0.1 and 25.4 in the Sprite brightness field");
+                    MessageBox.Show("Enter a value between -0.1 and 25.4 in the Sprite brightness field".Translate());
                     tbSpriteBright.Text = "";
                     return;
                 }
@@ -262,7 +262,7 @@ namespace HBMTimecycEditor
                     (double.Parse(tbLightOnGround.Text.Replace(".", ",")) < -0.1 ||
                     double.Parse(tbLightOnGround.Text.Replace(".", ",")) > 25.4))
                 {
-                    MessageBox.Show("Enter a value between -0.1 and 25.4 in the Light on ground field");
+                    MessageBox.Show("Enter a value between -0.1 and 25.4 in the Light on ground field".Translate());
                     tbLightOnGround.Text = "";
                     return;
                 }
@@ -323,7 +323,7 @@ namespace HBMTimecycEditor
             }
 
             File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
-            MessageBox.Show("Done!");
+            MessageBox.Show("Done!".Translate());
         }
         private void BtnShow_Click(object sender, EventArgs e)
         {

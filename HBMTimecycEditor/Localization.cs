@@ -37,7 +37,13 @@ namespace HBMTimecycEditor
             ["Weather:"] = "Погода:",
             ["Time:"] = "Время:",
             ["Reset"] = "Сбросить",
-            ["Ok"] = "Ок"
+            ["Ok"] = "Ок",
+            ["Done!"] = "Готово!",
+            ["Enter a value in at least one of the fields"] = "Введите значение хотя бы в одно поле",
+            ["Enter a value between -3600 and 3600 in the Draw distance field"] = "Введите значение от -3600 до 3600 в поле Дистанция прорисовки",
+            ["Enter a value between -3600 and 3600 in the Fog distance field"] = "Введите значение от -3600 до 3600 в поле Дистанция тумана",
+            ["Enter a value between -0.1 and 25.4 in the Sprite brightness field"] = "Введите значение от -0.1 до 25.4 в поле Яркость освещения",
+            ["Enter a value between -0.1 and 25.4 in the Light on ground field"] = "Введите значение от -0.1 до 25.4 в поле Свет на земле"
         };
         private static Dictionary<string, string> s_dictionaryEng = new Dictionary<string, string>()
         {
@@ -64,7 +70,13 @@ namespace HBMTimecycEditor
             ["Погода:"] = "Weather:",
             ["Время:"] = "Time:",
             ["Сбросить"] = "Reset",
-            ["Ок"] = "Ok"
+            ["Ок"] = "Ok",
+            ["Готово!"] = "Done!",
+            ["Введите значение хотя бы в одно поле"] = "Enter a value in at least one of the fields",
+            ["Введите значение от -3600 до 3600 в поле Дистанция прорисовки"] = "Enter a value between -3600 and 3600 in the Draw distance field",
+            ["Введите значение от -3600 до 3600 в поле Дистанция тумана"] = "Enter a value between -3600 and 3600 in the Fog distance field",
+            ["Введите значение от -0.1 до 25.4 в поле Яркость освещения"] = "Enter a value between -0.1 and 25.4 in the Sprite brightness field",
+            ["Введите значение от -0.1 до 25.4 в поле Свет на земле"] = "Enter a value between -0.1 and 25.4 in the Light on ground field"
         };
 
         public static LocalizationLanguage Language { get; set; } = LocalizationLanguage.ENG;
