@@ -267,39 +267,56 @@ namespace HBMTimecycEditor
             }
             #endregion
 
-            if (cbWeather.SelectedIndex > 0 && cbTime.SelectedIndex > 0)
+            if (tgglMultiselect.Checked)
             {
-                ReplaceValues(positions);
-            }
-            else if (cbWeather.SelectedIndex == 0 && cbTime.SelectedIndex == 0)
-            {
-                for (int i = 1; i < cbWeather.Items.Count; i++)
+                for (int i = 0; i < Program.Weathers.Length; i++)
                 {
-                    for (int j = 1; j < cbTime.Items.Count; j++)
+                    for (int j = 0; j < Program.Times.Length; j++)
                     {
-                        GetPosition(i, j, positions);
-                        ReplaceValues(positions);
+                        if (Program.Weathers[i] && Program.Times[j])
+                        {
+                            GetPosition(i + 1, j + 1, positions);
+                            ReplaceValues(positions);
+                        }
                     }
                 }
             }
             else
             {
-                int count;
-                if (cbWeather.SelectedIndex == 0)
-                    count = cbWeather.Items.Count;
-                else
-                    count = cbTime.Items.Count;
-                for (int i = 1; i < count; i++)
+                if (cbWeather.SelectedIndex > 0 && cbTime.SelectedIndex > 0)
                 {
-                    if (cbWeather.SelectedIndex == 0)
-                    {
-                        GetPosition(i, cbTime.SelectedIndex, positions);
-                    }
-                    else
-                    {
-                        GetPosition(cbWeather.SelectedIndex, i, positions);
-                    }
                     ReplaceValues(positions);
+                }
+                else if (cbWeather.SelectedIndex == 0 && cbTime.SelectedIndex == 0)
+                {
+                    for (int i = 1; i < cbWeather.Items.Count; i++)
+                    {
+                        for (int j = 1; j < cbTime.Items.Count; j++)
+                        {
+                            GetPosition(i, j, positions);
+                            ReplaceValues(positions);
+                        }
+                    }
+                }
+                else
+                {
+                    int count;
+                    if (cbWeather.SelectedIndex == 0)
+                        count = cbWeather.Items.Count;
+                    else
+                        count = cbTime.Items.Count;
+                    for (int i = 1; i < count; i++)
+                    {
+                        if (cbWeather.SelectedIndex == 0)
+                        {
+                            GetPosition(i, cbTime.SelectedIndex, positions);
+                        }
+                        else
+                        {
+                            GetPosition(cbWeather.SelectedIndex, i, positions);
+                        }
+                        ReplaceValues(positions);
+                    }
                 }
             }
 
