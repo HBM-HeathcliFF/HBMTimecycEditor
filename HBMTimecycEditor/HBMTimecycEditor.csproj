@@ -104,6 +104,7 @@
     <Compile Include="frmMultiselect.Designer.cs">
       <DependentUpon>frmMultiselect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Localization.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

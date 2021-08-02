@@ -36,7 +36,7 @@ namespace HBMTimecycEditor
             this.cbTime = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlDrawDist = new System.Windows.Forms.Panel();
-            this.btnChange = new yt_DesignUI.yt_Button();
+            this.btnShow = new yt_DesignUI.yt_Button();
             this.tgglMultiselect = new yt_DesignUI.EgoldsToggleSwitch();
             this.pnlEdit = new System.Windows.Forms.Panel();
             this.tbDraw = new yt_DesignUI.EgoldsGoogleTextBox();
@@ -48,6 +48,7 @@ namespace HBMTimecycEditor
             this.egoldsFormStyle1 = new yt_DesignUI.Components.EgoldsFormStyle(this.components);
             this.tbPath = new yt_DesignUI.EgoldsGoogleTextBox();
             this.btnBrowse = new yt_DesignUI.yt_Button();
+            this.btnLocalization = new yt_DesignUI.yt_Button();
             this.pnlDrawDist.SuspendLayout();
             this.pnlEdit.SuspendLayout();
             this.pnlOneSelect.SuspendLayout();
@@ -59,7 +60,7 @@ namespace HBMTimecycEditor
             this.cbWeather.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cbWeather.FormattingEnabled = true;
             this.cbWeather.Items.AddRange(new object[] {
-            "ALL",
+            "All",
             "EXTRASUNNY_LA",
             "SUNNY_LA",
             "EXTRASUNNY_SMOG_LA",
@@ -105,7 +106,7 @@ namespace HBMTimecycEditor
             this.cbTime.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cbTime.FormattingEnabled = true;
             this.cbTime.Items.AddRange(new object[] {
-            "ALL",
+            "All",
             "Midnight",
             "5 AM",
             "6 AM",
@@ -116,7 +117,7 @@ namespace HBMTimecycEditor
             "10 PM"});
             this.cbTime.Location = new System.Drawing.Point(221, 23);
             this.cbTime.Name = "cbTime";
-            this.cbTime.Size = new System.Drawing.Size(84, 24);
+            this.cbTime.Size = new System.Drawing.Size(143, 24);
             this.cbTime.TabIndex = 8;
             this.cbTime.SelectedIndexChanged += new System.EventHandler(this.CbTime_SelectedIndexChanged);
             // 
@@ -132,42 +133,42 @@ namespace HBMTimecycEditor
             // 
             // pnlDrawDist
             // 
-            this.pnlDrawDist.Controls.Add(this.btnChange);
+            this.pnlDrawDist.Controls.Add(this.btnShow);
             this.pnlDrawDist.Controls.Add(this.tgglMultiselect);
             this.pnlDrawDist.Controls.Add(this.pnlEdit);
             this.pnlDrawDist.Controls.Add(this.pnlOneSelect);
             this.pnlDrawDist.Location = new System.Drawing.Point(1, 57);
             this.pnlDrawDist.Name = "pnlDrawDist";
-            this.pnlDrawDist.Size = new System.Drawing.Size(434, 142);
+            this.pnlDrawDist.Size = new System.Drawing.Size(555, 142);
             this.pnlDrawDist.TabIndex = 0;
-            this.pnlDrawDist.Click += new System.EventHandler(this.PnlOneSelect_Click);
+            this.pnlDrawDist.Click += new System.EventHandler(this.PnlDrawDist_Click);
             // 
-            // btnChange
+            // btnShow
             // 
-            this.btnChange.BackColor = System.Drawing.Color.DarkCyan;
-            this.btnChange.BackColorAdditional = System.Drawing.Color.Gray;
-            this.btnChange.BackColorGradientEnabled = false;
-            this.btnChange.BackColorGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            this.btnChange.BorderColor = System.Drawing.Color.Black;
-            this.btnChange.BorderColorEnabled = false;
-            this.btnChange.BorderColorOnHover = System.Drawing.Color.LightSeaGreen;
-            this.btnChange.BorderColorOnHoverEnabled = false;
-            this.btnChange.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChange.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnChange.ForeColor = System.Drawing.Color.White;
-            this.btnChange.Location = new System.Drawing.Point(358, 17);
-            this.btnChange.Name = "btnChange";
-            this.btnChange.RippleColor = System.Drawing.Color.Black;
-            this.btnChange.RoundingEnable = true;
-            this.btnChange.Size = new System.Drawing.Size(70, 34);
-            this.btnChange.TabIndex = 14;
-            this.btnChange.Text = "Change";
-            this.btnChange.TextHover = null;
-            this.btnChange.UseDownPressEffectOnClick = false;
-            this.btnChange.UseRippleEffect = true;
-            this.btnChange.UseZoomEffectOnHover = false;
-            this.btnChange.Visible = false;
-            this.btnChange.Click += new System.EventHandler(this.BtnChange_Click);
+            this.btnShow.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnShow.BackColorAdditional = System.Drawing.Color.Gray;
+            this.btnShow.BackColorGradientEnabled = false;
+            this.btnShow.BackColorGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            this.btnShow.BorderColor = System.Drawing.Color.Black;
+            this.btnShow.BorderColorEnabled = false;
+            this.btnShow.BorderColorOnHover = System.Drawing.Color.LightSeaGreen;
+            this.btnShow.BorderColorOnHoverEnabled = false;
+            this.btnShow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShow.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnShow.ForeColor = System.Drawing.Color.White;
+            this.btnShow.Location = new System.Drawing.Point(415, 17);
+            this.btnShow.Name = "btnShow";
+            this.btnShow.RippleColor = System.Drawing.Color.Black;
+            this.btnShow.RoundingEnable = true;
+            this.btnShow.Size = new System.Drawing.Size(130, 34);
+            this.btnShow.TabIndex = 14;
+            this.btnShow.Text = "Show";
+            this.btnShow.TextHover = null;
+            this.btnShow.UseDownPressEffectOnClick = false;
+            this.btnShow.UseRippleEffect = true;
+            this.btnShow.UseZoomEffectOnHover = false;
+            this.btnShow.Visible = false;
+            this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
             // 
             // tgglMultiselect
             // 
@@ -177,7 +178,7 @@ namespace HBMTimecycEditor
             this.tgglMultiselect.Checked = false;
             this.tgglMultiselect.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tgglMultiselect.Font = new System.Drawing.Font("Verdana", 9F);
-            this.tgglMultiselect.Location = new System.Drawing.Point(312, 27);
+            this.tgglMultiselect.Location = new System.Drawing.Point(370, 27);
             this.tgglMultiselect.Name = "tgglMultiselect";
             this.tgglMultiselect.Size = new System.Drawing.Size(116, 15);
             this.tgglMultiselect.TabIndex = 12;
@@ -194,8 +195,9 @@ namespace HBMTimecycEditor
             this.pnlEdit.Controls.Add(this.tbSpriteBright);
             this.pnlEdit.Location = new System.Drawing.Point(0, 53);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(434, 89);
+            this.pnlEdit.Size = new System.Drawing.Size(555, 89);
             this.pnlEdit.TabIndex = 14;
+            this.pnlEdit.Click += new System.EventHandler(this.PnlEdit_Click);
             // 
             // tbDraw
             // 
@@ -209,7 +211,7 @@ namespace HBMTimecycEditor
             this.tbDraw.Location = new System.Drawing.Point(7, 0);
             this.tbDraw.Name = "tbDraw";
             this.tbDraw.SelectionStart = 0;
-            this.tbDraw.Size = new System.Drawing.Size(145, 40);
+            this.tbDraw.Size = new System.Drawing.Size(194, 40);
             this.tbDraw.TabIndex = 5;
             this.tbDraw.TextInput = "";
             this.tbDraw.TextPreview = "Draw distance";
@@ -225,10 +227,10 @@ namespace HBMTimecycEditor
             this.tbLightOnGround.Font = new System.Drawing.Font("Arial", 11.25F);
             this.tbLightOnGround.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbLightOnGround.ForeColor = System.Drawing.Color.Black;
-            this.tbLightOnGround.Location = new System.Drawing.Point(158, 43);
+            this.tbLightOnGround.Location = new System.Drawing.Point(207, 43);
             this.tbLightOnGround.Name = "tbLightOnGround";
             this.tbLightOnGround.SelectionStart = 0;
-            this.tbLightOnGround.Size = new System.Drawing.Size(147, 40);
+            this.tbLightOnGround.Size = new System.Drawing.Size(157, 40);
             this.tbLightOnGround.TabIndex = 13;
             this.tbLightOnGround.TextInput = "";
             this.tbLightOnGround.TextPreview = "Light on ground";
@@ -248,11 +250,11 @@ namespace HBMTimecycEditor
             this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(312, 51);
+            this.btnEdit.Location = new System.Drawing.Point(415, 50);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.RippleColor = System.Drawing.Color.Black;
             this.btnEdit.RoundingEnable = true;
-            this.btnEdit.Size = new System.Drawing.Size(116, 30);
+            this.btnEdit.Size = new System.Drawing.Size(130, 33);
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit";
             this.btnEdit.TextHover = null;
@@ -270,10 +272,10 @@ namespace HBMTimecycEditor
             this.tbFog.Font = new System.Drawing.Font("Arial", 11.25F);
             this.tbFog.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbFog.ForeColor = System.Drawing.Color.Black;
-            this.tbFog.Location = new System.Drawing.Point(158, 0);
+            this.tbFog.Location = new System.Drawing.Point(207, 0);
             this.tbFog.Name = "tbFog";
             this.tbFog.SelectionStart = 0;
-            this.tbFog.Size = new System.Drawing.Size(147, 40);
+            this.tbFog.Size = new System.Drawing.Size(157, 40);
             this.tbFog.TabIndex = 9;
             this.tbFog.TextInput = "";
             this.tbFog.TextPreview = "Fog distance";
@@ -292,7 +294,7 @@ namespace HBMTimecycEditor
             this.tbSpriteBright.Location = new System.Drawing.Point(7, 43);
             this.tbSpriteBright.Name = "tbSpriteBright";
             this.tbSpriteBright.SelectionStart = 0;
-            this.tbSpriteBright.Size = new System.Drawing.Size(145, 40);
+            this.tbSpriteBright.Size = new System.Drawing.Size(194, 40);
             this.tbSpriteBright.TabIndex = 10;
             this.tbSpriteBright.TextInput = "";
             this.tbSpriteBright.TextPreview = "Sprite brightness";
@@ -307,8 +309,9 @@ namespace HBMTimecycEditor
             this.pnlOneSelect.Controls.Add(this.label1);
             this.pnlOneSelect.Location = new System.Drawing.Point(0, 0);
             this.pnlOneSelect.Name = "pnlOneSelect";
-            this.pnlOneSelect.Size = new System.Drawing.Size(310, 53);
+            this.pnlOneSelect.Size = new System.Drawing.Size(364, 53);
             this.pnlOneSelect.TabIndex = 11;
+            this.pnlOneSelect.Click += new System.EventHandler(this.PnlOneSelect_Click);
             // 
             // egoldsFormStyle1
             // 
@@ -341,7 +344,7 @@ namespace HBMTimecycEditor
             this.tbPath.Location = new System.Drawing.Point(8, 11);
             this.tbPath.Name = "tbPath";
             this.tbPath.SelectionStart = 0;
-            this.tbPath.Size = new System.Drawing.Size(298, 40);
+            this.tbPath.Size = new System.Drawing.Size(402, 40);
             this.tbPath.TabIndex = 4;
             this.tbPath.TextInput = "";
             this.tbPath.TextPreview = "GTA path";
@@ -361,11 +364,11 @@ namespace HBMTimecycEditor
             this.btnBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBrowse.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnBrowse.ForeColor = System.Drawing.Color.White;
-            this.btnBrowse.Location = new System.Drawing.Point(313, 17);
+            this.btnBrowse.Location = new System.Drawing.Point(416, 17);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.RippleColor = System.Drawing.Color.Black;
             this.btnBrowse.RoundingEnable = true;
-            this.btnBrowse.Size = new System.Drawing.Size(116, 34);
+            this.btnBrowse.Size = new System.Drawing.Size(87, 34);
             this.btnBrowse.TabIndex = 6;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.TextHover = null;
@@ -374,11 +377,38 @@ namespace HBMTimecycEditor
             this.btnBrowse.UseZoomEffectOnHover = false;
             this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
             // 
+            // btnLocalization
+            // 
+            this.btnLocalization.BackColor = System.Drawing.Color.DarkCyan;
+            this.btnLocalization.BackColorAdditional = System.Drawing.Color.Gray;
+            this.btnLocalization.BackColorGradientEnabled = false;
+            this.btnLocalization.BackColorGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            this.btnLocalization.BorderColor = System.Drawing.Color.Black;
+            this.btnLocalization.BorderColorEnabled = false;
+            this.btnLocalization.BorderColorOnHover = System.Drawing.Color.LightSeaGreen;
+            this.btnLocalization.BorderColorOnHoverEnabled = false;
+            this.btnLocalization.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLocalization.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnLocalization.ForeColor = System.Drawing.Color.White;
+            this.btnLocalization.Location = new System.Drawing.Point(508, 17);
+            this.btnLocalization.Name = "btnLocalization";
+            this.btnLocalization.RippleColor = System.Drawing.Color.Black;
+            this.btnLocalization.RoundingEnable = true;
+            this.btnLocalization.Size = new System.Drawing.Size(38, 34);
+            this.btnLocalization.TabIndex = 14;
+            this.btnLocalization.Text = "RUS";
+            this.btnLocalization.TextHover = null;
+            this.btnLocalization.UseDownPressEffectOnClick = false;
+            this.btnLocalization.UseRippleEffect = true;
+            this.btnLocalization.UseZoomEffectOnHover = false;
+            this.btnLocalization.Click += new System.EventHandler(this.BtnLocalization_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 200);
+            this.ClientSize = new System.Drawing.Size(558, 200);
+            this.Controls.Add(this.btnLocalization);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.pnlDrawDist);
             this.Controls.Add(this.tbPath);
@@ -386,7 +416,7 @@ namespace HBMTimecycEditor
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HBM Draw distance editor";
+            this.Text = "HBM Timecyc Editor";
             this.Click += new System.EventHandler(this.FrmMain_Click);
             this.pnlDrawDist.ResumeLayout(false);
             this.pnlEdit.ResumeLayout(false);
@@ -413,8 +443,9 @@ namespace HBMTimecycEditor
         private System.Windows.Forms.Panel pnlOneSelect;
         private yt_DesignUI.EgoldsGoogleTextBox tbLightOnGround;
         private System.Windows.Forms.Panel pnlEdit;
-        private yt_DesignUI.yt_Button btnChange;
+        private yt_DesignUI.yt_Button btnShow;
         public yt_DesignUI.EgoldsToggleSwitch tgglMultiselect;
+        private yt_DesignUI.yt_Button btnLocalization;
     }
 }
 

@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using yt_DesignUI.Controls;
 
 namespace HBMTimecycEditor
 {
-    public partial class frmMultiselect : Form
+    public partial class frmMultiselect : ShadowedForm
     {
         frmMain mainForm;
         CheckBox[] weathers;
@@ -51,6 +52,8 @@ namespace HBMTimecycEditor
             {
                 checkBox.CheckedChanged += (s, ea) => CbTime_Unchecked(checkBox);
             }
+
+            Localization.TranslateAllControls(this);
         }
 
         private void CbAllWeathers_CheckedChanged(object sender, EventArgs e)

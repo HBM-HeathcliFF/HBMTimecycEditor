@@ -88,6 +88,8 @@ namespace HBMTimecycEditor
             Position sprtBrght = new Position(Number.SPRITE_BRIGHT_VALUE, ref tbSpriteBright);
 
             positions.AddRange(new Position[] { lightOnGrnd, fogDist, drawDist, sprtBrght });
+
+            Localization.TranslateAllControls(this);
         }
 
         private async void TgglMultiselect_CheckedChanged(object sender)
@@ -107,7 +109,7 @@ namespace HBMTimecycEditor
                 this.Height = defHeight - OFFSET;
 
                 tgglMultiselect.Text = "";
-                btnChange.Visible = true;
+                btnShow.Visible = true;
                 FreezeTgglMultiselect();
                 new frmMultiselect(this).Show();
             }
@@ -124,8 +126,8 @@ namespace HBMTimecycEditor
                 pnlEdit.Location = new Point(pnlEdit.Location.X, Y + OFFSET);
                 this.Height = defHeight + OFFSET;
 
-                tgglMultiselect.Text = "Multiselect";
-                btnChange.Visible = false;
+                tgglMultiselect.Text = "Multiselect".Translate();
+                btnShow.Visible = false;
             }
         }
         private void FreezeTgglMultiselect()
@@ -323,12 +325,27 @@ namespace HBMTimecycEditor
             File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
             MessageBox.Show("Done!");
         }
-        private void BtnChange_Click(object sender, EventArgs e)
+        private void BtnShow_Click(object sender, EventArgs e)
         {
             if (Application.OpenForms["frmMultisel"] == null)
             {
                 FreezeTgglMultiselect();
                 new frmMultiselect(this).Show();
+            }
+        }
+        private void BtnLocalization_Click(object sender, EventArgs e)
+        {
+            if (btnLocalization.Text == "RUS".Translate())
+            {
+                Localization.Language = LocalizationLanguage.RUS;
+                btnLocalization.Text = "АНГ";
+                Localization.TranslateAllControls(this);
+            }
+            else
+            {
+                Localization.Language = LocalizationLanguage.ENG;
+                btnLocalization.Text = "RUS";
+                Localization.TranslateAllControls(this);
             }
         }
         #endregion
@@ -339,6 +356,14 @@ namespace HBMTimecycEditor
             btnEdit.Focus();
         }
         private void PnlOneSelect_Click(object sender, EventArgs e)
+        {
+            btnEdit.Focus();
+        }
+        private void PnlDrawDist_Click(object sender, EventArgs e)
+        {
+            btnEdit.Focus();
+        }
+        private void PnlEdit_Click(object sender, EventArgs e)
         {
             btnEdit.Focus();
         }

@@ -81,9 +81,9 @@ namespace HBMTimecycEditor
             this.label1.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(9, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 16);
+            this.label1.Size = new System.Drawing.Size(66, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Weathers:";
+            this.label1.Text = "Weather:";
             // 
             // label2
             // 
@@ -91,9 +91,9 @@ namespace HBMTimecycEditor
             this.label2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(270, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 16);
+            this.label2.Size = new System.Drawing.Size(42, 16);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Times:";
+            this.label2.Text = "Time:";
             // 
             // pnlWeather
             // 
@@ -522,7 +522,7 @@ namespace HBMTimecycEditor
             this.btnReset.Name = "btnReset";
             this.btnReset.RippleColor = System.Drawing.Color.Black;
             this.btnReset.RoundingEnable = true;
-            this.btnReset.Size = new System.Drawing.Size(74, 30);
+            this.btnReset.Size = new System.Drawing.Size(93, 30);
             this.btnReset.TabIndex = 39;
             this.btnReset.Text = "Reset";
             this.btnReset.TextHover = null;
@@ -544,11 +544,11 @@ namespace HBMTimecycEditor
             this.btnOk.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOk.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnOk.ForeColor = System.Drawing.Color.White;
-            this.btnOk.Location = new System.Drawing.Point(307, 427);
+            this.btnOk.Location = new System.Drawing.Point(325, 427);
             this.btnOk.Name = "btnOk";
             this.btnOk.RippleColor = System.Drawing.Color.Black;
             this.btnOk.RoundingEnable = true;
-            this.btnOk.Size = new System.Drawing.Size(74, 30);
+            this.btnOk.Size = new System.Drawing.Size(56, 30);
             this.btnOk.TabIndex = 38;
             this.btnOk.Text = "Ok";
             this.btnOk.TextHover = null;
