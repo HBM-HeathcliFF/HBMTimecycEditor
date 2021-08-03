@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows.Forms;
 
 namespace HBMTimecycEditor
@@ -11,6 +12,10 @@ namespace HBMTimecycEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
+            if (Localization.Language == LocalizationLanguage.ENG)
+                Registry.CurrentUser.CreateSubKey(@"Software\HBMDrawDistEditor").SetValue("language", "eng");
+            else if (Localization.Language == LocalizationLanguage.RUS)
+                Registry.CurrentUser.CreateSubKey(@"Software\HBMDrawDistEditor").SetValue("language", "rus");
         }
 
         public static bool[] Weathers { get; set; } = new bool[23];

@@ -69,9 +69,17 @@ namespace HBMTimecycEditor
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\HBMDrawDistEditor"))
                 {
                     gtaPath = key.GetValue("path").ToString();
+                    switch (key.GetValue("language").ToString())
+                    {
+                        case "eng":
+                            Localization.Language = LocalizationLanguage.ENG;
+                            break;
+                        case "rus":
+                            Localization.Language = LocalizationLanguage.RUS;
+                            break;
+                    }
                 }
                 tbPath.Text = gtaPath;
-                tbPath.SelectionStart = tbPath.TextLength;
                 timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
             }
             catch (Exception)
@@ -140,22 +148,25 @@ namespace HBMTimecycEditor
         #region ComboBoxes
         private void ComboBox_SelectedIndexChanged()
         {
-            if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
+            if (!Localization.IsChanged)
             {
-                GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, positions);
-                tbDraw.Text = timecyc[drawDist.LineNum].Substring(drawDist.Index, drawDist.Length);
-                tbFog.Text = timecyc[fogDist.LineNum].Substring(fogDist.Index, fogDist.Length);
-                tbSpriteBright.Text = timecyc[spriteBrght.LineNum].Substring(spriteBrght.Index, spriteBrght.Length);
-                tbLightOnGround.Text = timecyc[lightOnGround.LineNum].Substring(lightOnGround.Index, lightOnGround.Length);
+                if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
+                {
+                    GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, positions);
+                    tbDraw.Text = timecyc[drawDist.LineNum].Substring(drawDist.Index, drawDist.Length);
+                    tbFog.Text = timecyc[fogDist.LineNum].Substring(fogDist.Index, fogDist.Length);
+                    tbSpriteBright.Text = timecyc[spriteBrght.LineNum].Substring(spriteBrght.Index, spriteBrght.Length);
+                    tbLightOnGround.Text = timecyc[lightOnGround.LineNum].Substring(lightOnGround.Index, lightOnGround.Length);
+                }
+                else
+                {
+                    tbDraw.Text = "";
+                    tbFog.Text = "";
+                    tbSpriteBright.Text = "";
+                    tbLightOnGround.Text = "";
+                }
             }
-            else
-            {
-                tbDraw.Text = "";
-                tbFog.Text = "";
-                tbSpriteBright.Text = "";
-                tbLightOnGround.Text = "";
-            }
-            tbSpriteBright.SelectionStart = tbSpriteBright.TextLength;
+            Localization.IsChanged = false;
         }
         private void CbWeather_SelectedIndexChanged(object sender, EventArgs e)
         {

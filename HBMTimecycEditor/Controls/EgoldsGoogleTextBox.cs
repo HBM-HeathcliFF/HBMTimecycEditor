@@ -38,7 +38,7 @@ namespace yt_DesignUI
             get => tbInput.Text;
             set
             {
-                tbInput.Text = value.ToString();
+                tbInput.Text = value;
                 TextPreviewAction(true);
                 TextPreviewAction(false);
             }
@@ -189,12 +189,13 @@ namespace yt_DesignUI
 
             Font FontTextPreviewActual = new Font(FontTextPreview.FontFamily, FontSizeTextPreviewAnim.Value, FontTextPreview.Style);
 
-            if(tbInput.Visible == false && FontTextPreviewActual.Size <= FontTextPreview.Size)
+            if(!tbInput.Visible && FontTextPreviewActual.Size <= FontTextPreview.Size)
             {
-                tbInput.Visible = true;
                 tbInput.Focus();
+                tbInput.Visible = true;
+                tbInput.SelectionStart = tbInput.TextLength;
             }
-            else if (tbInput.Visible == true && FontTextPreviewActual.Size > FontTextPreview.Size)
+            else if (tbInput.Visible && FontTextPreviewActual.Size > FontTextPreview.Size)
             {
                 tbInput.Visible = false;
             }
@@ -205,7 +206,7 @@ namespace yt_DesignUI
             Rectangle rectTextPreview = new Rectangle(5, (int)LocationTextPreviewAnim.Value, TextPreviewRectSize.Width + 3, TextPreviewRectSize.Height);
 
             // Обводка
-            graph.DrawRectangle(new Pen(tbInput.Focused == true ? BorderColor : BorderColorNotActive), rectBase);
+            graph.DrawRectangle(new Pen(tbInput.Focused ? BorderColor : BorderColorNotActive), rectBase);
             
             // Заголовок/Описание
             graph.DrawRectangle(new Pen(Parent.BackColor), rectTextPreview);
@@ -214,14 +215,14 @@ namespace yt_DesignUI
             // Цвет внутри
             graph.FillRectangle(new SolidBrush(BackColor), rectBase);
             
-            graph.DrawString(TextPreview, FontTextPreviewActual, new SolidBrush(tbInput.Focused == true ? BorderColor : BorderColorNotActive), rectTextPreview, SF);
+            graph.DrawString(TextPreview, FontTextPreviewActual, new SolidBrush(tbInput.Focused ? BorderColor : BorderColorNotActive), rectTextPreview, SF);
         }
 
         private void TextPreviewAction(bool OnTop)
         {
             if (OnTop)
             {
-                if (tbInput.Visible == false)
+                if (!tbInput.Visible)
                 {
                     LocationTextPreviewAnim = new Animation("TextPreviewLocationY" + Handle, Invalidate, LocationTextPreviewAnim.Value, 0);
                     FontSizeTextPreviewAnim = new Animation("TextPreviewFontSize" + Handle, Invalidate, FontSizeTextPreviewAnim.Value, FontTextPreview.Size);

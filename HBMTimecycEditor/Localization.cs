@@ -80,6 +80,7 @@ namespace HBMTimecycEditor
         };
 
         public static LocalizationLanguage Language { get; set; } = LocalizationLanguage.ENG;
+        public static bool IsChanged { get; set; } = false;
 
         public static string Translate(this string line)
         {
@@ -105,13 +106,14 @@ namespace HBMTimecycEditor
             if (parent is EgoldsGoogleTextBox)
             {
                 ((EgoldsGoogleTextBox)parent).TextPreview = Translate(((EgoldsGoogleTextBox)parent).TextPreview);
-                parent.Refresh();
+                ((EgoldsGoogleTextBox)parent).Refresh();
             }
             else if (parent is ComboBox)
             {
                 var items = ((ComboBox)parent).Items;
                 for (int i = 0; i < items.Count; i++)
                 {
+                    IsChanged = true;
                     items[i] = items[i].ToString().Translate();
                 }
             }
@@ -119,7 +121,7 @@ namespace HBMTimecycEditor
             {
                 parent.Text = Translate(parent.Text);
             }
-
+            
             foreach (Control control in parent.Controls)
             {
                 TranslateAllControls(control);
