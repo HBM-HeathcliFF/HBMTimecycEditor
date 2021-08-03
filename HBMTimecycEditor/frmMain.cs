@@ -73,9 +73,11 @@ namespace HBMTimecycEditor
                     {
                         case "eng":
                             Localization.Language = LocalizationLanguage.ENG;
+                            btnLocalization.Text = "RUS";
                             break;
                         case "rus":
                             Localization.Language = LocalizationLanguage.RUS;
+                            btnLocalization.Text = "АНГ";
                             break;
                     }
                 }
