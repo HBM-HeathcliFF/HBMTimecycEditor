@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Design;
 using System.Windows.Forms.Design;
 using EgoldsUI;
 
@@ -24,11 +25,11 @@ namespace yt_DesignUI
             {
                 // Ограничение, чтобы размер шрифта заголовка нельзя было установить больше, 
                 // чем размер основного шрифта
-                if(value.Size >= Font.Size )
+                if (value.Size >= Font.Size)
                     return;
                 fontTextPreview = value;
             }
-        } 
+        }
 
         public Color BorderColor { get; set; } = FlatColors.Blue;
         public Color BorderColorNotActive { get; set; } = FlatColors.GrayDark;
@@ -39,8 +40,8 @@ namespace yt_DesignUI
             set
             {
                 tbInput.Text = value;
-                TextPreviewAction(true);
-                TextPreviewAction(false);
+                if (!tbInput.Focused)
+                    TextPreviewAction(TextInput.Length > 0);
             }
         }
 
@@ -49,19 +50,19 @@ namespace yt_DesignUI
             get => tbInput.UseSystemPasswordChar;
             set => tbInput.UseSystemPasswordChar = value;
         }
-        
+
         public new string Text
         {
             get => tbInput.Text;
             set
             {
                 tbInput.Text = value;
-                TextPreviewAction(true);
-                TextPreviewAction(false);
+                if (!tbInput.Focused)
+                    TextPreviewAction(TextInput.Length > 0);
             }
         }
 
-        public int SelectionStart 
+        public int SelectionStart
         {
             get => tbInput.SelectionStart;
             set => tbInput.SelectionStart = value;
@@ -102,7 +103,7 @@ namespace yt_DesignUI
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor | ControlStyles.UserPaint, true);
             DoubleBuffered = true;
-            
+
             Size = new Size(150, 40);
             Font = new Font("Arial", 11.25F, FontStyle.Regular);
             ForeColor = Color.Black;
@@ -124,7 +125,7 @@ namespace yt_DesignUI
         {
             base.OnCreateControl();
 
-            TextPreviewAction(tbInput.Text.Length > 0);
+            TextPreviewAction(TextInput.Length > 0);
         }
 
         private void AdjustTextBoxInput()
@@ -142,8 +143,13 @@ namespace yt_DesignUI
             tbInput.Size = new Size(Width - 10, tbInput.Height);
 
             tbInput.LostFocus += TbInput_LostFocus;
+            tbInput.GotFocus += TbInput_GotFocus;
         }
 
+        private void TbInput_GotFocus(object sender, EventArgs e)
+        {
+            TextPreviewAction(true);
+        }
         private void TbInput_LostFocus(object sender, EventArgs e)
         {
             TextPreviewAction(false);
@@ -189,11 +195,10 @@ namespace yt_DesignUI
 
             Font FontTextPreviewActual = new Font(FontTextPreview.FontFamily, FontSizeTextPreviewAnim.Value, FontTextPreview.Style);
 
-            if(!tbInput.Visible && FontTextPreviewActual.Size <= FontTextPreview.Size)
+            if (!tbInput.Visible && FontTextPreviewActual.Size <= FontTextPreview.Size)
             {
-                tbInput.Focus();
                 tbInput.Visible = true;
-                tbInput.SelectionStart = tbInput.TextLength;
+                tbInput.Focus();
             }
             else if (tbInput.Visible && FontTextPreviewActual.Size > FontTextPreview.Size)
             {
@@ -206,23 +211,26 @@ namespace yt_DesignUI
             Rectangle rectTextPreview = new Rectangle(5, (int)LocationTextPreviewAnim.Value, TextPreviewRectSize.Width + 3, TextPreviewRectSize.Height);
 
             // Обводка
-            graph.DrawRectangle(new Pen(tbInput.Focused ? BorderColor : BorderColorNotActive), rectBase);
-            
+            graph.DrawRectangle(new Pen(tbInput.Text.Length > 0 || tbInput.Focused ?
+                BorderColor : BorderColorNotActive), rectBase);
+
             // Заголовок/Описание
             graph.DrawRectangle(new Pen(Parent.BackColor), rectTextPreview);
             graph.FillRectangle(new SolidBrush(Parent.BackColor), rectTextPreview);
 
             // Цвет внутри
             graph.FillRectangle(new SolidBrush(BackColor), rectBase);
-            
-            graph.DrawString(TextPreview, FontTextPreviewActual, new SolidBrush(tbInput.Focused ? BorderColor : BorderColorNotActive), rectTextPreview, SF);
+
+            graph.DrawString(TextPreview, FontTextPreviewActual, 
+                new SolidBrush(tbInput.Text.Length > 0 || tbInput.Focused ?
+                BorderColor : BorderColorNotActive), rectTextPreview, SF);
         }
 
         private void TextPreviewAction(bool OnTop)
         {
             if (OnTop)
             {
-                if (!tbInput.Visible)
+                if (tbInput.Visible == false)
                 {
                     LocationTextPreviewAnim = new Animation("TextPreviewLocationY" + Handle, Invalidate, LocationTextPreviewAnim.Value, 0);
                     FontSizeTextPreviewAnim = new Animation("TextPreviewFontSize" + Handle, Invalidate, FontSizeTextPreviewAnim.Value, FontTextPreview.Size);
@@ -235,7 +243,7 @@ namespace yt_DesignUI
             }
             else
             {
-                if (tbInput.Text.Length == 0)
+                if (TextInput.Length == 0)
                 {
                     LocationTextPreviewAnim = new Animation("TextPreviewLocationY" + Handle, Invalidate, LocationTextPreviewAnim.Value, tbInput.Location.Y);
                     FontSizeTextPreviewAnim = new Animation("TextPreviewFontSize" + Handle, Invalidate, FontSizeTextPreviewAnim.Value, Font.Size);
@@ -253,20 +261,12 @@ namespace yt_DesignUI
             Animator.Request(FontSizeTextPreviewAnim, true);
         }
 
-        protected override void OnGotFocus(EventArgs e)
-        {
-            base.OnGotFocus(e);
-            TextPreviewAction(true);
-        }
-
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
 
             TextPreviewAction(true);
         }
-
-
 
         /// <summary>
         /// В этом классе переопределяем SelectionRules, и даем возможность только изменять ширину и перемещать объект

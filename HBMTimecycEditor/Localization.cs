@@ -106,7 +106,7 @@ namespace HBMTimecycEditor
             if (parent is EgoldsGoogleTextBox)
             {
                 ((EgoldsGoogleTextBox)parent).TextPreview = Translate(((EgoldsGoogleTextBox)parent).TextPreview);
-                ((EgoldsGoogleTextBox)parent).Refresh();
+                ((EgoldsGoogleTextBox)parent).Invalidate();
             }
             else if (parent is ComboBox)
             {
@@ -115,6 +115,7 @@ namespace HBMTimecycEditor
                 {
                     IsChanged = true;
                     items[i] = items[i].ToString().Translate();
+                    IsChanged = false;
                 }
             }
             else

@@ -19,13 +19,13 @@ namespace HBMTimecycEditor
         public Position(Number number, ref EgoldsGoogleTextBox egtBox)
         {
             NumberPos = number;
-            EGTBox = egtBox;
+            EGTextBox = egtBox;
         }
 
         public int Index { get; set; }
         public int Length { get; set; }
-        public int LineNum { get; set; }
+        public int LineNumber { get; set; }
         public Number NumberPos { get; set; }
-        public EgoldsGoogleTextBox EGTBox { get; set; }
+        public EgoldsGoogleTextBox EGTextBox { get; set; }
     }
 }

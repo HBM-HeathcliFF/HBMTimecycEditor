@@ -40,9 +40,7 @@ namespace HBMTimecycEditor
 
         public frmMain()
         {
-            InitializeComponent();
-            
-            #region Protection against restarting
+            #region Multiple launch protection
             // Protection against restarting the application
             // with the subsequent activation of an existing window
             Process this_process = Process.GetCurrentProcess();
@@ -61,9 +59,18 @@ namespace HBMTimecycEditor
                 Environment.Exit(0);
             }
             #endregion
-            
+
+            InitializeComponent();
+
+            Position lightOnGrnd = new Position(Number.LIGHT_ON_GROUND, ref tbLightOnGround);
+            Position fogDist = new Position(Number.FOG_DIST_VALUE, ref tbFog);
+            Position drawDist = new Position(Number.DRAW_DIST_VALUE, ref tbDraw);
+            Position sprtBrght = new Position(Number.SPRITE_BRIGHT_VALUE, ref tbSpriteBright);
+            positions.AddRange(new Position[] { lightOnGrnd, fogDist, drawDist, sprtBrght });
+
             Animator.Start();
 
+            #region Reading registry
             try
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\HBMDrawDistEditor"))
@@ -88,20 +95,16 @@ namespace HBMTimecycEditor
             {
                 pnlDrawDist.Visible = false;
             }
+            #endregion
 
-            cbWeather.SelectedIndex = 0;
-            cbTime.SelectedIndex = 0;
-
-            Position lightOnGrnd = new Position(Number.LIGHT_ON_GROUND, ref tbLightOnGround);
-            Position fogDist = new Position(Number.FOG_DIST_VALUE, ref tbFog);
-            Position drawDist = new Position(Number.DRAW_DIST_VALUE, ref tbDraw);
-            Position sprtBrght = new Position(Number.SPRITE_BRIGHT_VALUE, ref tbSpriteBright);
-
-            positions.AddRange(new Position[] { lightOnGrnd, fogDist, drawDist, sprtBrght });
+            // Remove focus from controls when clicking on a panel/form
+            Click += (s, ea) => btnEdit.Focus();
+            AddClickEventOnPanels(this);
 
             Localization.TranslateAllControls(this);
         }
 
+        #region ToggleSwitche
         private async void TgglMultiselect_CheckedChanged(object sender)
         {
             int Y = pnlEdit.Location.Y, defHeight = this.Height;
@@ -110,7 +113,7 @@ namespace HBMTimecycEditor
                 pnlOneSelect.Visible = false;
                 while (pnlEdit.Location.Y > Y - OFFSET)
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(10);
                     this.Height -= pnlEdit.Location.Y / 5;
                     pnlEdit.Location = new Point(pnlEdit.Location.X,
                         pnlEdit.Location.Y - pnlEdit.Location.Y / 5);
@@ -128,7 +131,7 @@ namespace HBMTimecycEditor
                 pnlOneSelect.Visible = true;
                 while (pnlEdit.Location.Y < Y + OFFSET)
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(10);
                     this.Height += (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1;
                     pnlEdit.Location = new Point(pnlEdit.Location.X,
                         pnlEdit.Location.Y + (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1);
@@ -146,27 +149,25 @@ namespace HBMTimecycEditor
             tgglMultiselect.BackColorON = Color.FromArgb(87, 175, 125);
             tgglMultiselect.Refresh();
         }
+        #endregion
 
         #region ComboBoxes
         private void ComboBox_SelectedIndexChanged()
         {
-            if (!Localization.IsChanged)
+            if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
             {
-                if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
-                {
-                    GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, positions);
-                    tbDraw.Text = timecyc[drawDist.LineNum].Substring(drawDist.Index, drawDist.Length);
-                    tbFog.Text = timecyc[fogDist.LineNum].Substring(fogDist.Index, fogDist.Length);
-                    tbSpriteBright.Text = timecyc[spriteBrght.LineNum].Substring(spriteBrght.Index, spriteBrght.Length);
-                    tbLightOnGround.Text = timecyc[lightOnGround.LineNum].Substring(lightOnGround.Index, lightOnGround.Length);
-                }
-                else
-                {
-                    tbDraw.Text = "";
-                    tbFog.Text = "";
-                    tbSpriteBright.Text = "";
-                    tbLightOnGround.Text = "";
-                }
+                GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, positions);
+                tbDraw.Text = timecyc[drawDist.LineNumber].Substring(drawDist.Index, drawDist.Length);
+                tbFog.Text = timecyc[fogDist.LineNumber].Substring(fogDist.Index, fogDist.Length);
+                tbSpriteBright.Text = timecyc[spriteBrght.LineNumber].Substring(spriteBrght.Index, spriteBrght.Length);
+                tbLightOnGround.Text = timecyc[lightOnGround.LineNumber].Substring(lightOnGround.Index, lightOnGround.Length);
+            }
+            else if (!Localization.IsChanged)
+            {
+                tbDraw.Text = "";
+                tbFog.Text = "";
+                tbSpriteBright.Text = "";
+                tbLightOnGround.Text = "";
             }
             Localization.IsChanged = false;
         }
@@ -361,43 +362,25 @@ namespace HBMTimecycEditor
                 Localization.TranslateAllControls(this);
             }
         }
-        #endregion
-
-        #region Remove focus
-        private void FrmMain_Click(object sender, EventArgs e)
-        {
-            btnEdit.Focus();
-        }
-        private void PnlOneSelect_Click(object sender, EventArgs e)
-        {
-            btnEdit.Focus();
-        }
-        private void PnlDrawDist_Click(object sender, EventArgs e)
-        {
-            btnEdit.Focus();
-        }
-        private void PnlEdit_Click(object sender, EventArgs e)
-        {
-            btnEdit.Focus();
-        }
-        #endregion
+        #endregion        
 
         /// <summary>Gets: the starting index of the draw distance value and his length</summary>
         private void GetPosition(int weatherIndex, int timeIndex, List<Position> positions)
         {
             foreach (var position in positions)
             {
-                for (position.LineNum = 0; position.LineNum < timecyc.Length; position.LineNum++)
+                for (position.LineNumber = 0; position.LineNumber < timecyc.Length; position.LineNumber++)
                 {
-                    if (timecyc[position.LineNum].Contains($@"//{cbWeather.Items[weatherIndex]}") ||
-                        timecyc[position.LineNum].Contains($@" {cbWeather.Items[weatherIndex]}"))
+                    if (timecyc[position.LineNumber].Contains($@"//{cbWeather.Items[weatherIndex]}") ||
+                        timecyc[position.LineNumber].Contains($@" {cbWeather.Items[weatherIndex]}"))
                     {
+                        #region Finding the required line
                         string[] numbers = null;
                         for (int i = 0; i < timeIndex;)
                         {
                             bool isNumbers = true;
-                            timecyc[position.LineNum] = timecyc[position.LineNum].Replace("\t", " ");
-                            numbers = timecyc[position.LineNum].Split(' ');
+                            timecyc[position.LineNumber] = timecyc[position.LineNumber].Replace("\t", " ");
+                            numbers = timecyc[position.LineNumber].Split(' ');
                             for (int j = 0; j < numbers.Length; j++)
                             {
                                 if (numbers[j] != "" && !(char.IsDigit(numbers[j].ToCharArray()[0])) &&
@@ -409,18 +392,21 @@ namespace HBMTimecycEditor
                             }
                             if (isNumbers)
                                 i++;
-                            position.LineNum++;
+                            position.LineNumber++;
                         }
-                        position.LineNum--;
+                        position.LineNumber--;
+                        #endregion
 
+                        #region Finding the required index and length
                         position.Index = 0;
-                        for (int i = 0, num = 0; i < numbers.Length; i++)
+                        for (int i = 0, number = 0; i < numbers.Length; i++)
                         {
                             if (numbers[i] != "" && (char.IsDigit(numbers[i].ToCharArray()[0]) ||
                                 numbers[i].ToCharArray()[0] == '-'))
-                                num++;
-                            if (num == (int)position.NumberPos)
+                                number++;
+                            if (number == (int)position.NumberPos)
                             {
+                                // Substring up to the desired value
                                 string substrBef = "";
                                 for (int k = 0; k < i; k++)
                                 {
@@ -431,11 +417,13 @@ namespace HBMTimecycEditor
                                 break;
                             }
                         }
+                        #endregion
 
                         break;
                     }
                 }
             }
+
             lightOnGround = positions[0];
             fogDist = positions[1];
             drawDist = positions[2];
@@ -463,11 +451,21 @@ namespace HBMTimecycEditor
         {
             foreach (var position in positions)
             {
-                if (position.EGTBox.Text != "")
+                if (position.EGTextBox.Text != "")
                 {
-                    timecyc[position.LineNum] = timecyc[position.LineNum].Remove(position.Index, position.Length);
-                    timecyc[position.LineNum] = timecyc[position.LineNum].Insert(position.Index, position.EGTBox.Text);
+                    timecyc[position.LineNumber] = timecyc[position.LineNumber].Remove(position.Index, position.Length);
+                    timecyc[position.LineNumber] = timecyc[position.LineNumber].Insert(position.Index, position.EGTextBox.Text);
                 }
+            }
+        }
+        /// <summary>Recursive addition Click event on all panels</summary>
+        void AddClickEventOnPanels(Control parent)
+        {
+            if (parent is Panel)
+                parent.Click += (s, e) => btnEdit.Focus();
+            foreach (Panel panel in parent.Controls.OfType<Panel>())
+            {
+                AddClickEventOnPanels(panel);
             }
         }
     }
