@@ -341,7 +341,7 @@ namespace HBMTimecycEditor
         }
         private void BtnShow_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms["frmMultisel"] == null)
+            if (Application.OpenForms["frmMultiselect"] == null)
             {
                 FreezeTgglMultiselect();
                 new frmMultiselect(this).Show();

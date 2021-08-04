@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Design;
 using System.Windows.Forms.Design;
 using EgoldsUI;
 
@@ -267,6 +266,7 @@ namespace yt_DesignUI
 
             TextPreviewAction(true);
         }
+
 
         /// <summary>
         /// В этом классе переопределяем SelectionRules, и даем возможность только изменять ширину и перемещать объект

@@ -89,7 +89,6 @@ namespace HBMTimecycEditor
             this.cbWeather.Size = new System.Drawing.Size(208, 24);
             this.cbWeather.TabIndex = 7;
             this.cbWeather.SelectedIndexChanged += new System.EventHandler(this.CbWeather_SelectedIndexChanged);
-            this.cbWeather.SelectedIndex = 0;
             // 
             // label1
             // 
@@ -121,7 +120,6 @@ namespace HBMTimecycEditor
             this.cbTime.Size = new System.Drawing.Size(143, 24);
             this.cbTime.TabIndex = 8;
             this.cbTime.SelectedIndexChanged += new System.EventHandler(this.CbTime_SelectedIndexChanged);
-            this.cbTime.SelectedIndex = 0;
             // 
             // label2
             // 
@@ -169,6 +167,7 @@ namespace HBMTimecycEditor
             this.btnShow.UseRippleEffect = true;
             this.btnShow.UseZoomEffectOnHover = false;
             this.btnShow.Visible = false;
+            this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
             // 
             // tgglMultiselect
             // 
@@ -209,6 +208,7 @@ namespace HBMTimecycEditor
             this.tbDraw.ForeColor = System.Drawing.Color.Black;
             this.tbDraw.Location = new System.Drawing.Point(7, 0);
             this.tbDraw.Name = "tbDraw";
+            this.tbDraw.SelectionStart = 0;
             this.tbDraw.Size = new System.Drawing.Size(194, 40);
             this.tbDraw.TabIndex = 5;
             this.tbDraw.TextInput = "";
@@ -227,6 +227,7 @@ namespace HBMTimecycEditor
             this.tbLightOnGround.ForeColor = System.Drawing.Color.Black;
             this.tbLightOnGround.Location = new System.Drawing.Point(207, 43);
             this.tbLightOnGround.Name = "tbLightOnGround";
+            this.tbLightOnGround.SelectionStart = 0;
             this.tbLightOnGround.Size = new System.Drawing.Size(157, 40);
             this.tbLightOnGround.TabIndex = 13;
             this.tbLightOnGround.TextInput = "";
@@ -271,6 +272,7 @@ namespace HBMTimecycEditor
             this.tbFog.ForeColor = System.Drawing.Color.Black;
             this.tbFog.Location = new System.Drawing.Point(207, 0);
             this.tbFog.Name = "tbFog";
+            this.tbFog.SelectionStart = 0;
             this.tbFog.Size = new System.Drawing.Size(157, 40);
             this.tbFog.TabIndex = 9;
             this.tbFog.TextInput = "";
@@ -289,6 +291,7 @@ namespace HBMTimecycEditor
             this.tbSpriteBright.ForeColor = System.Drawing.Color.Black;
             this.tbSpriteBright.Location = new System.Drawing.Point(7, 43);
             this.tbSpriteBright.Name = "tbSpriteBright";
+            this.tbSpriteBright.SelectionStart = 0;
             this.tbSpriteBright.Size = new System.Drawing.Size(194, 40);
             this.tbSpriteBright.TabIndex = 10;
             this.tbSpriteBright.TextInput = "";
@@ -337,6 +340,7 @@ namespace HBMTimecycEditor
             this.tbPath.ForeColor = System.Drawing.Color.Black;
             this.tbPath.Location = new System.Drawing.Point(8, 11);
             this.tbPath.Name = "tbPath";
+            this.tbPath.SelectionStart = 0;
             this.tbPath.Size = new System.Drawing.Size(402, 40);
             this.tbPath.TabIndex = 4;
             this.tbPath.TextInput = "";
