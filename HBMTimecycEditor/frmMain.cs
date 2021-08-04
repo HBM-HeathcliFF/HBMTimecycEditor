@@ -101,6 +101,9 @@ namespace HBMTimecycEditor
             Click += (s, ea) => btnEdit.Focus();
             AddClickEventOnPanels(this);
 
+            cbWeather.SelectedIndex = 0;
+            cbTime.SelectedIndex = 0;
+
             Localization.TranslateAllControls(this);
         }
 
