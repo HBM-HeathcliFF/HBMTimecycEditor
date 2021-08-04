@@ -1,6 +1,6 @@
 # HBM Timecyc Editor
 HBM Timecyc Editor - приложение для редактирования файла timecyc.dat из игры GTA San Andreas. 
-# Функционал
+## Функционал
 Значения из timecyc.dat, подлежащие изменению:
 - Дистанция прорисовки/Draw distance.
 - Дистанция тумана (Fog distance) - дистанция, с которой в игре появляется туман.
