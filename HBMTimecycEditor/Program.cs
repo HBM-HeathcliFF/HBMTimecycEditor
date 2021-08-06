@@ -13,9 +13,9 @@ namespace HBMTimecycEditor
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
             if (Localization.Language == LocalizationLanguage.ENG)
-                Registry.CurrentUser.CreateSubKey(@"Software\HBMDrawDistEditor").SetValue("language", "eng");
+                Registry.CurrentUser.CreateSubKey(@"Software\HBMTimecycEditor").SetValue("language", "eng");
             else if (Localization.Language == LocalizationLanguage.RUS)
-                Registry.CurrentUser.CreateSubKey(@"Software\HBMDrawDistEditor").SetValue("language", "rus");
+                Registry.CurrentUser.CreateSubKey(@"Software\HBMTimecycEditor").SetValue("language", "rus");
         }
 
         public static bool[] Weathers { get; set; } = new bool[23];
