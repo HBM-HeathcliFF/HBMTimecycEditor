@@ -38,7 +38,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HBM Draw distance editor, Version=1.1.1.2, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -98,6 +97,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMessage.Designer.cs">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMultiselect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,11 +110,14 @@
       <DependentUpon>frmMultiselect.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="EditionValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMessage.resx">
+      <DependentUpon>frmMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMultiselect.resx">
       <DependentUpon>frmMultiselect.cs</DependentUpon>

@@ -20,5 +20,6 @@ namespace HBMTimecycEditor
 
         public static bool[] Weathers { get; set; } = new bool[23];
         public static bool[] Times { get; set; } = new bool[8];
+        public static string Message { get; set; }
     }
 }

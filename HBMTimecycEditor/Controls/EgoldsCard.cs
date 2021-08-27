@@ -15,9 +15,7 @@ namespace yt_DesignUI
         private int CurtainMinHeight = 50;
 
         private bool MouseEntered = false;
-        private bool MousePressed = false;
-
-        StringFormat SF = new StringFormat();
+        private StringFormat SF = new StringFormat();
 
         #endregion
 
@@ -131,18 +129,12 @@ namespace yt_DesignUI
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-
-            MousePressed = true;
-
             Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-
-            MousePressed = false;
-
             Invalidate();
         }
 

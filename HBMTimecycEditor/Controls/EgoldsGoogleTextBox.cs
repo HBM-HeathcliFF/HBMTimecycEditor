@@ -12,6 +12,8 @@ namespace yt_DesignUI
     [DefaultProperty("TextPreview")]
     public class EgoldsGoogleTextBox : Control
     {
+        bool isMouseClick = false;
+
         #region -- Свойства --
 
         public string TextPreview { get; set; } = "Input text";
@@ -195,14 +197,9 @@ namespace yt_DesignUI
             Font FontTextPreviewActual = new Font(FontTextPreview.FontFamily, FontSizeTextPreviewAnim.Value, FontTextPreview.Style);
 
             if (!tbInput.Visible && FontTextPreviewActual.Size <= FontTextPreview.Size)
-            {
                 tbInput.Visible = true;
-                tbInput.Focus();
-            }
             else if (tbInput.Visible && FontTextPreviewActual.Size > FontTextPreview.Size)
-            {
                 tbInput.Visible = false;
-            }
 
             Rectangle rectBase = new Rectangle(0, TopBorderOffset, Width - 1, Height - 1 - TopBorderOffset);
 
@@ -210,7 +207,7 @@ namespace yt_DesignUI
             Rectangle rectTextPreview = new Rectangle(5, (int)LocationTextPreviewAnim.Value, TextPreviewRectSize.Width + 3, TextPreviewRectSize.Height);
 
             // Обводка
-            graph.DrawRectangle(new Pen(tbInput.Text.Length > 0 || tbInput.Focused ?
+            graph.DrawRectangle(new Pen(FontTextPreviewActual.Size <= FontTextPreview.Size ?
                 BorderColor : BorderColorNotActive), rectBase);
 
             // Заголовок/Описание
@@ -221,8 +218,14 @@ namespace yt_DesignUI
             graph.FillRectangle(new SolidBrush(BackColor), rectBase);
 
             graph.DrawString(TextPreview, FontTextPreviewActual, 
-                new SolidBrush(tbInput.Text.Length > 0 || tbInput.Focused ?
+                new SolidBrush(FontTextPreviewActual.Size <= FontTextPreview.Size ?
                 BorderColor : BorderColorNotActive), rectTextPreview, SF);
+
+            if (isMouseClick && tbInput.Visible)
+            {
+                tbInput.Focus();
+                isMouseClick = false;
+            }
         }
 
         private void TextPreviewAction(bool OnTop)
@@ -236,7 +239,6 @@ namespace yt_DesignUI
                 }
                 else
                 {
-                    tbInput.Focus();
                     return;
                 }
             }
@@ -263,6 +265,7 @@ namespace yt_DesignUI
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
+            isMouseClick = true;
 
             TextPreviewAction(true);
         }
