@@ -56,6 +56,7 @@ namespace HBMTimecycEditor
                     editionValue.EGTextBox.Text =
                         timecyc[editionValue.LineNumber].Substring(editionValue.Index, editionValue.Length);
                 }
+                SetBackColorOfPictureBoxes(pnlEdit);
             }
             else if (!Localization.IsChanged)
             {
@@ -183,6 +184,33 @@ namespace HBMTimecycEditor
         }
         #endregion
 
+        #region PictureBoxes
+        private void PbAmbient_BackColorChanged(object sender, EventArgs e)
+        {
+            tbAmbientR.Text = pbAmbient.BackColor.R.ToString();
+            tbAmbientG.Text = pbAmbient.BackColor.G.ToString();
+            tbAmbientB.Text = pbAmbient.BackColor.B.ToString();
+        }
+        private void PbAmbientObj_BackColorChanged(object sender, EventArgs e)
+        {
+            tbAmbientObjR.Text = pbAmbientObj.BackColor.R.ToString();
+            tbAmbientObjG.Text = pbAmbientObj.BackColor.G.ToString();
+            tbAmbientObjB.Text = pbAmbientObj.BackColor.B.ToString();
+        }
+        private void PbPostFX1_BackColorChanged(object sender, EventArgs e)
+        {
+            tbPostFX1R.Text = pbPostFX1.BackColor.R.ToString();
+            tbPostFX1G.Text = pbPostFX1.BackColor.G.ToString();
+            tbPostFX1B.Text = pbPostFX1.BackColor.B.ToString();
+        }
+        private void PbPostFX2_BackColorChanged(object sender, EventArgs e)
+        {
+            tbPostFX2R.Text = pbPostFX2.BackColor.R.ToString();
+            tbPostFX2G.Text = pbPostFX2.BackColor.G.ToString();
+            tbPostFX2B.Text = pbPostFX2.BackColor.B.ToString();
+        }
+        #endregion
+
         private async void TgglMultiselect_CheckedChanged(object sender)
         {
             int Y = pnlEdit.Location.Y, defHeight = Height;
@@ -267,14 +295,14 @@ namespace HBMTimecycEditor
 
             editionValues.AddRange(new EditionValue[21] 
             {
-                new EditionValue(EditionValueType.POSTFX2_B, RangeType.UNSIGNED_INT, ref tbPF2B),
-                new EditionValue(EditionValueType.POSTFX2_G, RangeType.UNSIGNED_INT, ref tbPF2G),
-                new EditionValue(EditionValueType.POSTFX2_R, RangeType.UNSIGNED_INT, ref tbPF2R),
-                new EditionValue(EditionValueType.POSTFX2_A, RangeType.UNSIGNED_INT, ref tbPF2A),
-                new EditionValue(EditionValueType.POSTFX1_B, RangeType.UNSIGNED_INT, ref tbPF1B),
-                new EditionValue(EditionValueType.POSTFX1_G, RangeType.UNSIGNED_INT, ref tbPF1G),
-                new EditionValue(EditionValueType.POSTFX1_R, RangeType.UNSIGNED_INT, ref tbPF1R),
-                new EditionValue(EditionValueType.POSTFX1_A, RangeType.UNSIGNED_INT, ref tbPF1A),
+                new EditionValue(EditionValueType.POSTFX2_B, RangeType.UNSIGNED_INT, ref tbPostFX2B),
+                new EditionValue(EditionValueType.POSTFX2_G, RangeType.UNSIGNED_INT, ref tbPostFX2G),
+                new EditionValue(EditionValueType.POSTFX2_R, RangeType.UNSIGNED_INT, ref tbPostFX2R),
+                new EditionValue(EditionValueType.POSTFX2_A, RangeType.UNSIGNED_INT, ref tbPostFX2A),
+                new EditionValue(EditionValueType.POSTFX1_B, RangeType.UNSIGNED_INT, ref tbPostFX1B),
+                new EditionValue(EditionValueType.POSTFX1_G, RangeType.UNSIGNED_INT, ref tbPostFX1G),
+                new EditionValue(EditionValueType.POSTFX1_R, RangeType.UNSIGNED_INT, ref tbPostFX1R),
+                new EditionValue(EditionValueType.POSTFX1_A, RangeType.UNSIGNED_INT, ref tbPostFX1A),
                 new EditionValue(EditionValueType.LIGHT_ON_GROUND, RangeType.DOUBLE, ref tbLightOnGround),
                 new EditionValue(EditionValueType.FOG_DIST, RangeType.INT, ref tbFog),
                 new EditionValue(EditionValueType.DRAW_DIST, RangeType.INT, ref tbDraw),
@@ -298,6 +326,8 @@ namespace HBMTimecycEditor
             // Remove focus from controls when clicking on a panel/form
             Click += (s, ea) => btnEdit.Focus();
             AddClickEventOnPanels(this);
+
+            AddClickEventOnAllPictureBoxes(pnlEdit);
 
             AddEventsOnAllTextBoxes(pnlEdit);
             foreach (var editionValue in editionValues)
@@ -497,6 +527,56 @@ namespace HBMTimecycEditor
             foreach (Control control in parent.Controls)
             {
                 AddEventsOnAllTextBoxes(control);
+            }
+        }
+        /// <summary>Recursive addition Click event on all PictureBoxes on the pnlEdit</summary>
+        private void AddClickEventOnAllPictureBoxes(Control parent)
+        {
+            if (parent is PictureBox)
+            {
+                parent.Click += (s, e) =>
+                {
+                    using (var colorPicker = new frmColorPicker() { SelectedColor = parent.BackColor })
+                    {
+                        colorPicker.ColorChanged += (sen, ev) => parent.BackColor = colorPicker.SelectedColor;
+                        var result = colorPicker.ShowDialog();
+                    }
+                };
+            }
+            foreach (Control control in parent.Controls)
+            {
+                AddClickEventOnAllPictureBoxes(control);
+            }
+        }
+        /// <summary>Recursive editing BackColor of all PictureBoxes on the pnlEdit</summary>
+        private void SetBackColorOfPictureBoxes(Control parent)
+        {
+            if (parent is GroupBox)
+            {
+                int R = 0, G = 0, B = 0;
+                foreach (var control in parent.Controls)
+                {
+                    if (control is EgoldsGoogleTextBox)
+                    {
+                        if (((EgoldsGoogleTextBox)control).TextPreview == "Red".Translate())
+                            R = int.Parse(((EgoldsGoogleTextBox)control).Text);
+                        if (((EgoldsGoogleTextBox)control).TextPreview == "Green".Translate())
+                            G = int.Parse(((EgoldsGoogleTextBox)control).Text);
+                        if (((EgoldsGoogleTextBox)control).TextPreview == "Blue".Translate())
+                            B = int.Parse(((EgoldsGoogleTextBox)control).Text);
+                    }
+                }
+                foreach (var control in parent.Controls)
+                {
+                    if (control is PictureBox)
+                    {
+                        ((PictureBox)control).BackColor = Color.FromArgb(R, G, B);
+                    }
+                }
+            }
+            foreach (Control control in parent.Controls)
+            {
+                SetBackColorOfPictureBoxes(control);
             }
         }
         /// <summary>Checking the completeness of TextBoses</summary>

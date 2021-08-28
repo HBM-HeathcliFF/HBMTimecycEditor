@@ -39,21 +39,28 @@ namespace HBMTimecycEditor
             this.btnShow = new yt_DesignUI.yt_Button();
             this.tgglMultiselect = new yt_DesignUI.EgoldsToggleSwitch();
             this.pnlEdit = new System.Windows.Forms.Panel();
+            this.tbPoleShading = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbLightShading = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbShadow = new yt_DesignUI.EgoldsGoogleTextBox();
             this.gbPF2 = new System.Windows.Forms.GroupBox();
-            this.tbPF2A = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF2B = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF2G = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF2R = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.pbPostFX2 = new System.Windows.Forms.PictureBox();
+            this.tbPostFX2A = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX2B = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX2G = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX2R = new yt_DesignUI.EgoldsGoogleTextBox();
             this.gbPF1 = new System.Windows.Forms.GroupBox();
-            this.tbPF1A = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF1G = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF1R = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPF1B = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX1A = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.pbPostFX1 = new System.Windows.Forms.PictureBox();
+            this.tbPostFX1G = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX1R = new yt_DesignUI.EgoldsGoogleTextBox();
+            this.tbPostFX1B = new yt_DesignUI.EgoldsGoogleTextBox();
             this.gbAmbientObj = new System.Windows.Forms.GroupBox();
+            this.pbAmbientObj = new System.Windows.Forms.PictureBox();
             this.tbAmbientObjB = new yt_DesignUI.EgoldsGoogleTextBox();
             this.tbAmbientObjG = new yt_DesignUI.EgoldsGoogleTextBox();
             this.tbAmbientObjR = new yt_DesignUI.EgoldsGoogleTextBox();
             this.gbAmbient = new System.Windows.Forms.GroupBox();
+            this.pbAmbient = new System.Windows.Forms.PictureBox();
             this.tbAmbientG = new yt_DesignUI.EgoldsGoogleTextBox();
             this.tbAmbientR = new yt_DesignUI.EgoldsGoogleTextBox();
             this.tbAmbientB = new yt_DesignUI.EgoldsGoogleTextBox();
@@ -67,15 +74,16 @@ namespace HBMTimecycEditor
             this.tbPath = new yt_DesignUI.EgoldsGoogleTextBox();
             this.btnBrowse = new yt_DesignUI.yt_Button();
             this.btnLocalization = new yt_DesignUI.yt_Button();
-            this.tbShadow = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbLightShading = new yt_DesignUI.EgoldsGoogleTextBox();
-            this.tbPoleShading = new yt_DesignUI.EgoldsGoogleTextBox();
             this.pnlDrawDist.SuspendLayout();
             this.pnlEdit.SuspendLayout();
             this.gbPF2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPostFX2)).BeginInit();
             this.gbPF1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPostFX1)).BeginInit();
             this.gbAmbientObj.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAmbientObj)).BeginInit();
             this.gbAmbient.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAmbient)).BeginInit();
             this.pnlOneSelect.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,7 +172,7 @@ namespace HBMTimecycEditor
             this.pnlDrawDist.Controls.Add(this.pnlOneSelect);
             this.pnlDrawDist.Location = new System.Drawing.Point(1, 57);
             this.pnlDrawDist.Name = "pnlDrawDist";
-            this.pnlDrawDist.Size = new System.Drawing.Size(550, 433);
+            this.pnlDrawDist.Size = new System.Drawing.Size(550, 436);
             this.pnlDrawDist.TabIndex = 0;
             // 
             // btnShow
@@ -226,193 +234,283 @@ namespace HBMTimecycEditor
             this.pnlEdit.Controls.Add(this.tbSpriteBright);
             this.pnlEdit.Location = new System.Drawing.Point(0, 53);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(550, 380);
+            this.pnlEdit.Size = new System.Drawing.Size(550, 383);
             this.pnlEdit.TabIndex = 11;
+            // 
+            // tbPoleShading
+            // 
+            this.tbPoleShading.BackColor = System.Drawing.Color.White;
+            this.tbPoleShading.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPoleShading.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPoleShading.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPoleShading.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPoleShading.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPoleShading.ForeColor = System.Drawing.Color.Black;
+            this.tbPoleShading.Location = new System.Drawing.Point(384, 86);
+            this.tbPoleShading.Name = "tbPoleShading";
+            this.tbPoleShading.SelectionStart = 0;
+            this.tbPoleShading.Size = new System.Drawing.Size(160, 40);
+            this.tbPoleShading.TabIndex = 20;
+            this.tbPoleShading.TextInput = "";
+            this.tbPoleShading.TextPreview = "Pole shading";
+            this.tbPoleShading.UseSystemPasswordChar = false;
+            // 
+            // tbLightShading
+            // 
+            this.tbLightShading.BackColor = System.Drawing.Color.White;
+            this.tbLightShading.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbLightShading.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbLightShading.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbLightShading.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbLightShading.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbLightShading.ForeColor = System.Drawing.Color.Black;
+            this.tbLightShading.Location = new System.Drawing.Point(221, 86);
+            this.tbLightShading.Name = "tbLightShading";
+            this.tbLightShading.SelectionStart = 0;
+            this.tbLightShading.Size = new System.Drawing.Size(157, 40);
+            this.tbLightShading.TabIndex = 19;
+            this.tbLightShading.TextInput = "";
+            this.tbLightShading.TextPreview = "Light shading";
+            this.tbLightShading.UseSystemPasswordChar = false;
+            // 
+            // tbShadow
+            // 
+            this.tbShadow.BackColor = System.Drawing.Color.White;
+            this.tbShadow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbShadow.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbShadow.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbShadow.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbShadow.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbShadow.ForeColor = System.Drawing.Color.Black;
+            this.tbShadow.Location = new System.Drawing.Point(7, 86);
+            this.tbShadow.Name = "tbShadow";
+            this.tbShadow.SelectionStart = 0;
+            this.tbShadow.Size = new System.Drawing.Size(208, 40);
+            this.tbShadow.TabIndex = 18;
+            this.tbShadow.TextInput = "";
+            this.tbShadow.TextPreview = "Shadow";
+            this.tbShadow.UseSystemPasswordChar = false;
             // 
             // gbPF2
             // 
-            this.gbPF2.Controls.Add(this.tbPF2A);
-            this.gbPF2.Controls.Add(this.tbPF2B);
-            this.gbPF2.Controls.Add(this.tbPF2G);
-            this.gbPF2.Controls.Add(this.tbPF2R);
+            this.gbPF2.Controls.Add(this.pbPostFX2);
+            this.gbPF2.Controls.Add(this.tbPostFX2A);
+            this.gbPF2.Controls.Add(this.tbPostFX2B);
+            this.gbPF2.Controls.Add(this.tbPostFX2G);
+            this.gbPF2.Controls.Add(this.tbPostFX2R);
             this.gbPF2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold);
-            this.gbPF2.Location = new System.Drawing.Point(7, 311);
+            this.gbPF2.Location = new System.Drawing.Point(7, 314);
             this.gbPF2.Name = "gbPF2";
-            this.gbPF2.Size = new System.Drawing.Size(357, 62);
+            this.gbPF2.Size = new System.Drawing.Size(397, 62);
             this.gbPF2.TabIndex = 15;
             this.gbPF2.TabStop = false;
             this.gbPF2.Text = "PostFX2";
             // 
-            // tbPF2A
+            // pbPostFX2
             // 
-            this.tbPF2A.BackColor = System.Drawing.Color.White;
-            this.tbPF2A.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF2A.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF2A.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF2A.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF2A.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF2A.ForeColor = System.Drawing.Color.Black;
-            this.tbPF2A.Location = new System.Drawing.Point(267, 15);
-            this.tbPF2A.Name = "tbPF2A";
-            this.tbPF2A.SelectionStart = 0;
-            this.tbPF2A.Size = new System.Drawing.Size(84, 40);
-            this.tbPF2A.TabIndex = 9;
-            this.tbPF2A.TextInput = "";
-            this.tbPF2A.TextPreview = "Alpha";
-            this.tbPF2A.UseSystemPasswordChar = false;
+            this.pbPostFX2.BackColor = System.Drawing.Color.Black;
+            this.pbPostFX2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbPostFX2.Location = new System.Drawing.Point(268, 21);
+            this.pbPostFX2.Name = "pbPostFX2";
+            this.pbPostFX2.Size = new System.Drawing.Size(34, 34);
+            this.pbPostFX2.TabIndex = 24;
+            this.pbPostFX2.TabStop = false;
+            this.pbPostFX2.BackColorChanged += new System.EventHandler(this.PbPostFX2_BackColorChanged);
             // 
-            // tbPF2B
+            // tbPostFX2A
             // 
-            this.tbPF2B.BackColor = System.Drawing.Color.White;
-            this.tbPF2B.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF2B.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF2B.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF2B.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF2B.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF2B.ForeColor = System.Drawing.Color.Black;
-            this.tbPF2B.Location = new System.Drawing.Point(180, 15);
-            this.tbPF2B.Name = "tbPF2B";
-            this.tbPF2B.SelectionStart = 0;
-            this.tbPF2B.Size = new System.Drawing.Size(84, 40);
-            this.tbPF2B.TabIndex = 8;
-            this.tbPF2B.TextInput = "";
-            this.tbPF2B.TextPreview = "Blue";
-            this.tbPF2B.UseSystemPasswordChar = false;
+            this.tbPostFX2A.BackColor = System.Drawing.Color.White;
+            this.tbPostFX2A.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX2A.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX2A.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX2A.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX2A.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX2A.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX2A.Location = new System.Drawing.Point(306, 15);
+            this.tbPostFX2A.Name = "tbPostFX2A";
+            this.tbPostFX2A.SelectionStart = 0;
+            this.tbPostFX2A.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX2A.TabIndex = 9;
+            this.tbPostFX2A.TextInput = "";
+            this.tbPostFX2A.TextPreview = "Alpha";
+            this.tbPostFX2A.UseSystemPasswordChar = false;
             // 
-            // tbPF2G
+            // tbPostFX2B
             // 
-            this.tbPF2G.BackColor = System.Drawing.Color.White;
-            this.tbPF2G.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF2G.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF2G.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF2G.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF2G.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF2G.ForeColor = System.Drawing.Color.Black;
-            this.tbPF2G.Location = new System.Drawing.Point(93, 15);
-            this.tbPF2G.Name = "tbPF2G";
-            this.tbPF2G.SelectionStart = 0;
-            this.tbPF2G.Size = new System.Drawing.Size(84, 40);
-            this.tbPF2G.TabIndex = 7;
-            this.tbPF2G.TextInput = "";
-            this.tbPF2G.TextPreview = "Green";
-            this.tbPF2G.UseSystemPasswordChar = false;
+            this.tbPostFX2B.BackColor = System.Drawing.Color.White;
+            this.tbPostFX2B.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX2B.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX2B.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX2B.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX2B.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX2B.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX2B.Location = new System.Drawing.Point(180, 15);
+            this.tbPostFX2B.Name = "tbPostFX2B";
+            this.tbPostFX2B.SelectionStart = 0;
+            this.tbPostFX2B.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX2B.TabIndex = 8;
+            this.tbPostFX2B.TextInput = "";
+            this.tbPostFX2B.TextPreview = "Blue";
+            this.tbPostFX2B.UseSystemPasswordChar = false;
             // 
-            // tbPF2R
+            // tbPostFX2G
             // 
-            this.tbPF2R.BackColor = System.Drawing.Color.White;
-            this.tbPF2R.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF2R.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF2R.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF2R.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF2R.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF2R.ForeColor = System.Drawing.Color.Black;
-            this.tbPF2R.Location = new System.Drawing.Point(6, 15);
-            this.tbPF2R.Name = "tbPF2R";
-            this.tbPF2R.SelectionStart = 0;
-            this.tbPF2R.Size = new System.Drawing.Size(84, 40);
-            this.tbPF2R.TabIndex = 6;
-            this.tbPF2R.TextInput = "";
-            this.tbPF2R.TextPreview = "Red";
-            this.tbPF2R.UseSystemPasswordChar = false;
+            this.tbPostFX2G.BackColor = System.Drawing.Color.White;
+            this.tbPostFX2G.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX2G.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX2G.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX2G.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX2G.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX2G.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX2G.Location = new System.Drawing.Point(93, 15);
+            this.tbPostFX2G.Name = "tbPostFX2G";
+            this.tbPostFX2G.SelectionStart = 0;
+            this.tbPostFX2G.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX2G.TabIndex = 7;
+            this.tbPostFX2G.TextInput = "";
+            this.tbPostFX2G.TextPreview = "Green";
+            this.tbPostFX2G.UseSystemPasswordChar = false;
+            // 
+            // tbPostFX2R
+            // 
+            this.tbPostFX2R.BackColor = System.Drawing.Color.White;
+            this.tbPostFX2R.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX2R.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX2R.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX2R.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX2R.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX2R.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX2R.Location = new System.Drawing.Point(6, 15);
+            this.tbPostFX2R.Name = "tbPostFX2R";
+            this.tbPostFX2R.SelectionStart = 0;
+            this.tbPostFX2R.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX2R.TabIndex = 6;
+            this.tbPostFX2R.TextInput = "";
+            this.tbPostFX2R.TextPreview = "Red";
+            this.tbPostFX2R.UseSystemPasswordChar = false;
             // 
             // gbPF1
             // 
-            this.gbPF1.Controls.Add(this.tbPF1A);
-            this.gbPF1.Controls.Add(this.tbPF1G);
-            this.gbPF1.Controls.Add(this.tbPF1R);
-            this.gbPF1.Controls.Add(this.tbPF1B);
+            this.gbPF1.Controls.Add(this.tbPostFX1A);
+            this.gbPF1.Controls.Add(this.pbPostFX1);
+            this.gbPF1.Controls.Add(this.tbPostFX1G);
+            this.gbPF1.Controls.Add(this.tbPostFX1R);
+            this.gbPF1.Controls.Add(this.tbPostFX1B);
             this.gbPF1.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold);
-            this.gbPF1.Location = new System.Drawing.Point(7, 250);
+            this.gbPF1.Location = new System.Drawing.Point(7, 252);
             this.gbPF1.Name = "gbPF1";
-            this.gbPF1.Size = new System.Drawing.Size(357, 62);
+            this.gbPF1.Size = new System.Drawing.Size(397, 62);
             this.gbPF1.TabIndex = 14;
             this.gbPF1.TabStop = false;
             this.gbPF1.Text = "PostFX1";
             // 
-            // tbPF1A
+            // tbPostFX1A
             // 
-            this.tbPF1A.BackColor = System.Drawing.Color.White;
-            this.tbPF1A.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF1A.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF1A.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF1A.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF1A.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF1A.ForeColor = System.Drawing.Color.Black;
-            this.tbPF1A.Location = new System.Drawing.Point(267, 15);
-            this.tbPF1A.Name = "tbPF1A";
-            this.tbPF1A.SelectionStart = 0;
-            this.tbPF1A.Size = new System.Drawing.Size(84, 40);
-            this.tbPF1A.TabIndex = 9;
-            this.tbPF1A.TextInput = "";
-            this.tbPF1A.TextPreview = "Alpha";
-            this.tbPF1A.UseSystemPasswordChar = false;
+            this.tbPostFX1A.BackColor = System.Drawing.Color.White;
+            this.tbPostFX1A.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX1A.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX1A.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX1A.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX1A.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX1A.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX1A.Location = new System.Drawing.Point(306, 15);
+            this.tbPostFX1A.Name = "tbPostFX1A";
+            this.tbPostFX1A.SelectionStart = 0;
+            this.tbPostFX1A.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX1A.TabIndex = 9;
+            this.tbPostFX1A.TextInput = "";
+            this.tbPostFX1A.TextPreview = "Alpha";
+            this.tbPostFX1A.UseSystemPasswordChar = false;
             // 
-            // tbPF1G
+            // pbPostFX1
             // 
-            this.tbPF1G.BackColor = System.Drawing.Color.White;
-            this.tbPF1G.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF1G.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF1G.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF1G.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF1G.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF1G.ForeColor = System.Drawing.Color.Black;
-            this.tbPF1G.Location = new System.Drawing.Point(93, 15);
-            this.tbPF1G.Name = "tbPF1G";
-            this.tbPF1G.SelectionStart = 0;
-            this.tbPF1G.Size = new System.Drawing.Size(84, 40);
-            this.tbPF1G.TabIndex = 7;
-            this.tbPF1G.TextInput = "";
-            this.tbPF1G.TextPreview = "Green";
-            this.tbPF1G.UseSystemPasswordChar = false;
+            this.pbPostFX1.BackColor = System.Drawing.Color.Black;
+            this.pbPostFX1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbPostFX1.Location = new System.Drawing.Point(268, 21);
+            this.pbPostFX1.Name = "pbPostFX1";
+            this.pbPostFX1.Size = new System.Drawing.Size(34, 34);
+            this.pbPostFX1.TabIndex = 23;
+            this.pbPostFX1.TabStop = false;
+            this.pbPostFX1.BackColorChanged += new System.EventHandler(this.PbPostFX1_BackColorChanged);
             // 
-            // tbPF1R
+            // tbPostFX1G
             // 
-            this.tbPF1R.BackColor = System.Drawing.Color.White;
-            this.tbPF1R.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF1R.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF1R.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF1R.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF1R.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF1R.ForeColor = System.Drawing.Color.Black;
-            this.tbPF1R.Location = new System.Drawing.Point(6, 15);
-            this.tbPF1R.Name = "tbPF1R";
-            this.tbPF1R.SelectionStart = 0;
-            this.tbPF1R.Size = new System.Drawing.Size(84, 40);
-            this.tbPF1R.TabIndex = 6;
-            this.tbPF1R.TextInput = "";
-            this.tbPF1R.TextPreview = "Red";
-            this.tbPF1R.UseSystemPasswordChar = false;
+            this.tbPostFX1G.BackColor = System.Drawing.Color.White;
+            this.tbPostFX1G.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX1G.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX1G.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX1G.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX1G.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX1G.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX1G.Location = new System.Drawing.Point(93, 15);
+            this.tbPostFX1G.Name = "tbPostFX1G";
+            this.tbPostFX1G.SelectionStart = 0;
+            this.tbPostFX1G.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX1G.TabIndex = 7;
+            this.tbPostFX1G.TextInput = "";
+            this.tbPostFX1G.TextPreview = "Green";
+            this.tbPostFX1G.UseSystemPasswordChar = false;
             // 
-            // tbPF1B
+            // tbPostFX1R
             // 
-            this.tbPF1B.BackColor = System.Drawing.Color.White;
-            this.tbPF1B.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPF1B.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPF1B.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPF1B.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPF1B.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPF1B.ForeColor = System.Drawing.Color.Black;
-            this.tbPF1B.Location = new System.Drawing.Point(180, 15);
-            this.tbPF1B.Name = "tbPF1B";
-            this.tbPF1B.SelectionStart = 0;
-            this.tbPF1B.Size = new System.Drawing.Size(84, 40);
-            this.tbPF1B.TabIndex = 8;
-            this.tbPF1B.TextInput = "";
-            this.tbPF1B.TextPreview = "Blue";
-            this.tbPF1B.UseSystemPasswordChar = false;
+            this.tbPostFX1R.BackColor = System.Drawing.Color.White;
+            this.tbPostFX1R.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX1R.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX1R.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX1R.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX1R.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX1R.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX1R.Location = new System.Drawing.Point(6, 15);
+            this.tbPostFX1R.Name = "tbPostFX1R";
+            this.tbPostFX1R.SelectionStart = 0;
+            this.tbPostFX1R.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX1R.TabIndex = 6;
+            this.tbPostFX1R.TextInput = "";
+            this.tbPostFX1R.TextPreview = "Red";
+            this.tbPostFX1R.UseSystemPasswordChar = false;
+            // 
+            // tbPostFX1B
+            // 
+            this.tbPostFX1B.BackColor = System.Drawing.Color.White;
+            this.tbPostFX1B.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.tbPostFX1B.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.tbPostFX1B.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPostFX1B.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.tbPostFX1B.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.tbPostFX1B.ForeColor = System.Drawing.Color.Black;
+            this.tbPostFX1B.Location = new System.Drawing.Point(180, 15);
+            this.tbPostFX1B.Name = "tbPostFX1B";
+            this.tbPostFX1B.SelectionStart = 0;
+            this.tbPostFX1B.Size = new System.Drawing.Size(84, 40);
+            this.tbPostFX1B.TabIndex = 8;
+            this.tbPostFX1B.TextInput = "";
+            this.tbPostFX1B.TextPreview = "Blue";
+            this.tbPostFX1B.UseSystemPasswordChar = false;
             // 
             // gbAmbientObj
             // 
+            this.gbAmbientObj.Controls.Add(this.pbAmbientObj);
             this.gbAmbientObj.Controls.Add(this.tbAmbientObjB);
             this.gbAmbientObj.Controls.Add(this.tbAmbientObjG);
             this.gbAmbientObj.Controls.Add(this.tbAmbientObjR);
             this.gbAmbientObj.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold);
             this.gbAmbientObj.Location = new System.Drawing.Point(7, 189);
             this.gbAmbientObj.Name = "gbAmbientObj";
-            this.gbAmbientObj.Size = new System.Drawing.Size(270, 62);
+            this.gbAmbientObj.Size = new System.Drawing.Size(310, 62);
             this.gbAmbientObj.TabIndex = 17;
             this.gbAmbientObj.TabStop = false;
             this.gbAmbientObj.Text = "Ambient Obj";
+            // 
+            // pbAmbientObj
+            // 
+            this.pbAmbientObj.BackColor = System.Drawing.Color.Black;
+            this.pbAmbientObj.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbAmbientObj.Location = new System.Drawing.Point(268, 21);
+            this.pbAmbientObj.Name = "pbAmbientObj";
+            this.pbAmbientObj.Size = new System.Drawing.Size(34, 34);
+            this.pbAmbientObj.TabIndex = 22;
+            this.pbAmbientObj.TabStop = false;
+            this.pbAmbientObj.BackColorChanged += new System.EventHandler(this.PbAmbientObj_BackColorChanged);
             // 
             // tbAmbientObjB
             // 
@@ -470,16 +568,28 @@ namespace HBMTimecycEditor
             // 
             // gbAmbient
             // 
+            this.gbAmbient.Controls.Add(this.pbAmbient);
             this.gbAmbient.Controls.Add(this.tbAmbientG);
             this.gbAmbient.Controls.Add(this.tbAmbientR);
             this.gbAmbient.Controls.Add(this.tbAmbientB);
             this.gbAmbient.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold);
             this.gbAmbient.Location = new System.Drawing.Point(7, 128);
             this.gbAmbient.Name = "gbAmbient";
-            this.gbAmbient.Size = new System.Drawing.Size(270, 62);
+            this.gbAmbient.Size = new System.Drawing.Size(310, 62);
             this.gbAmbient.TabIndex = 16;
             this.gbAmbient.TabStop = false;
             this.gbAmbient.Text = "Ambient";
+            // 
+            // pbAmbient
+            // 
+            this.pbAmbient.BackColor = System.Drawing.Color.Black;
+            this.pbAmbient.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbAmbient.Location = new System.Drawing.Point(268, 21);
+            this.pbAmbient.Name = "pbAmbient";
+            this.pbAmbient.Size = new System.Drawing.Size(34, 34);
+            this.pbAmbient.TabIndex = 21;
+            this.pbAmbient.TabStop = false;
+            this.pbAmbient.BackColorChanged += new System.EventHandler(this.PbAmbient_BackColorChanged);
             // 
             // tbAmbientG
             // 
@@ -547,7 +657,7 @@ namespace HBMTimecycEditor
             this.tbDraw.Location = new System.Drawing.Point(7, 0);
             this.tbDraw.Name = "tbDraw";
             this.tbDraw.SelectionStart = 0;
-            this.tbDraw.Size = new System.Drawing.Size(194, 40);
+            this.tbDraw.Size = new System.Drawing.Size(208, 40);
             this.tbDraw.TabIndex = 5;
             this.tbDraw.TextInput = "";
             this.tbDraw.TextPreview = "Draw distance";
@@ -562,7 +672,7 @@ namespace HBMTimecycEditor
             this.tbLightOnGround.Font = new System.Drawing.Font("Arial", 11.25F);
             this.tbLightOnGround.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbLightOnGround.ForeColor = System.Drawing.Color.Black;
-            this.tbLightOnGround.Location = new System.Drawing.Point(207, 43);
+            this.tbLightOnGround.Location = new System.Drawing.Point(221, 43);
             this.tbLightOnGround.Name = "tbLightOnGround";
             this.tbLightOnGround.SelectionStart = 0;
             this.tbLightOnGround.Size = new System.Drawing.Size(157, 40);
@@ -584,11 +694,11 @@ namespace HBMTimecycEditor
             this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(370, 340);
+            this.btnEdit.Location = new System.Drawing.Point(415, 343);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.RippleColor = System.Drawing.Color.Black;
             this.btnEdit.RoundingEnable = true;
-            this.btnEdit.Size = new System.Drawing.Size(175, 33);
+            this.btnEdit.Size = new System.Drawing.Size(130, 33);
             this.btnEdit.TabIndex = 7;
             this.btnEdit.Text = "Edit";
             this.btnEdit.TextHover = null;
@@ -606,7 +716,7 @@ namespace HBMTimecycEditor
             this.tbFog.Font = new System.Drawing.Font("Arial", 11.25F);
             this.tbFog.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbFog.ForeColor = System.Drawing.Color.Black;
-            this.tbFog.Location = new System.Drawing.Point(207, 0);
+            this.tbFog.Location = new System.Drawing.Point(221, 0);
             this.tbFog.Name = "tbFog";
             this.tbFog.SelectionStart = 0;
             this.tbFog.Size = new System.Drawing.Size(157, 40);
@@ -627,7 +737,7 @@ namespace HBMTimecycEditor
             this.tbSpriteBright.Location = new System.Drawing.Point(7, 43);
             this.tbSpriteBright.Name = "tbSpriteBright";
             this.tbSpriteBright.SelectionStart = 0;
-            this.tbSpriteBright.Size = new System.Drawing.Size(194, 40);
+            this.tbSpriteBright.Size = new System.Drawing.Size(208, 40);
             this.tbSpriteBright.TabIndex = 10;
             this.tbSpriteBright.TextInput = "";
             this.tbSpriteBright.TextPreview = "Sprite brightness";
@@ -733,82 +843,32 @@ namespace HBMTimecycEditor
             this.btnLocalization.UseZoomEffectOnHover = false;
             this.btnLocalization.Click += new System.EventHandler(this.BtnLocalization_Click);
             // 
-            // tbShadow
-            // 
-            this.tbShadow.BackColor = System.Drawing.Color.White;
-            this.tbShadow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbShadow.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbShadow.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbShadow.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbShadow.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbShadow.ForeColor = System.Drawing.Color.Black;
-            this.tbShadow.Location = new System.Drawing.Point(7, 86);
-            this.tbShadow.Name = "tbShadow";
-            this.tbShadow.SelectionStart = 0;
-            this.tbShadow.Size = new System.Drawing.Size(194, 40);
-            this.tbShadow.TabIndex = 18;
-            this.tbShadow.TextInput = "";
-            this.tbShadow.TextPreview = "Shadow";
-            this.tbShadow.UseSystemPasswordChar = false;
-            // 
-            // tbLightShading
-            // 
-            this.tbLightShading.BackColor = System.Drawing.Color.White;
-            this.tbLightShading.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbLightShading.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbLightShading.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbLightShading.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbLightShading.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbLightShading.ForeColor = System.Drawing.Color.Black;
-            this.tbLightShading.Location = new System.Drawing.Point(207, 86);
-            this.tbLightShading.Name = "tbLightShading";
-            this.tbLightShading.SelectionStart = 0;
-            this.tbLightShading.Size = new System.Drawing.Size(157, 40);
-            this.tbLightShading.TabIndex = 19;
-            this.tbLightShading.TextInput = "";
-            this.tbLightShading.TextPreview = "Light shading";
-            this.tbLightShading.UseSystemPasswordChar = false;
-            // 
-            // tbPoleShading
-            // 
-            this.tbPoleShading.BackColor = System.Drawing.Color.White;
-            this.tbPoleShading.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.tbPoleShading.BorderColorNotActive = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
-            this.tbPoleShading.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbPoleShading.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.tbPoleShading.FontTextPreview = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.tbPoleShading.ForeColor = System.Drawing.Color.Black;
-            this.tbPoleShading.Location = new System.Drawing.Point(370, 86);
-            this.tbPoleShading.Name = "tbPoleShading";
-            this.tbPoleShading.SelectionStart = 0;
-            this.tbPoleShading.Size = new System.Drawing.Size(174, 40);
-            this.tbPoleShading.TabIndex = 20;
-            this.tbPoleShading.TextInput = "";
-            this.tbPoleShading.TextPreview = "Pole shading";
-            this.tbPoleShading.UseSystemPasswordChar = false;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 492);
+            this.ClientSize = new System.Drawing.Size(536, 495);
             this.Controls.Add(this.btnLocalization);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.pnlDrawDist);
             this.Controls.Add(this.tbPath);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(552, 530);
-            this.MinimumSize = new System.Drawing.Size(552, 530);
+            this.MaximumSize = new System.Drawing.Size(552, 533);
+            this.MinimumSize = new System.Drawing.Size(552, 533);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HBM Timecyc Editor";
             this.pnlDrawDist.ResumeLayout(false);
             this.pnlEdit.ResumeLayout(false);
             this.gbPF2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbPostFX2)).EndInit();
             this.gbPF1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbPostFX1)).EndInit();
             this.gbAmbientObj.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbAmbientObj)).EndInit();
             this.gbAmbient.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbAmbient)).EndInit();
             this.pnlOneSelect.ResumeLayout(false);
             this.pnlOneSelect.PerformLayout();
             this.ResumeLayout(false);
@@ -836,13 +896,13 @@ namespace HBMTimecycEditor
         public yt_DesignUI.EgoldsToggleSwitch tgglMultiselect;
         private yt_DesignUI.yt_Button btnLocalization;
         private System.Windows.Forms.GroupBox gbPF2;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF2B;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF2G;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF2R;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX2B;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX2G;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX2R;
         private System.Windows.Forms.GroupBox gbPF1;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF1B;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF1G;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF1R;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX1B;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX1G;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX1R;
         private System.Windows.Forms.GroupBox gbAmbientObj;
         private yt_DesignUI.EgoldsGoogleTextBox tbAmbientObjB;
         private yt_DesignUI.EgoldsGoogleTextBox tbAmbientObjG;
@@ -851,11 +911,15 @@ namespace HBMTimecycEditor
         private yt_DesignUI.EgoldsGoogleTextBox tbAmbientG;
         private yt_DesignUI.EgoldsGoogleTextBox tbAmbientR;
         private yt_DesignUI.EgoldsGoogleTextBox tbAmbientB;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF2A;
-        private yt_DesignUI.EgoldsGoogleTextBox tbPF1A;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX2A;
+        private yt_DesignUI.EgoldsGoogleTextBox tbPostFX1A;
         private yt_DesignUI.EgoldsGoogleTextBox tbPoleShading;
         private yt_DesignUI.EgoldsGoogleTextBox tbLightShading;
         private yt_DesignUI.EgoldsGoogleTextBox tbShadow;
+        private System.Windows.Forms.PictureBox pbPostFX2;
+        private System.Windows.Forms.PictureBox pbPostFX1;
+        private System.Windows.Forms.PictureBox pbAmbientObj;
+        private System.Windows.Forms.PictureBox pbAmbient;
     }
 }
 
