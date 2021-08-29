@@ -15,14 +15,6 @@ namespace HBMTimecycEditor
 {
     public partial class frmMain : ShadowedForm
     {
-        /* 5 steps to add a new field
-         * 1) Add textbox to form
-         * 2) Add type to enum of EditionValue (Add in order of timecyc.dat)
-         * 3) Add ToolTip
-         * 4) Localize
-         * 5) Initialize an object of EditionValue in the form constructor (Initialize strictly in the reverse order of the timecyc.dat!)
-        */
-
         #region WinAPI
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -53,8 +45,11 @@ namespace HBMTimecycEditor
 
                 foreach (var editionValue in editionValues)
                 {
-                    editionValue.EGTextBox.Text =
-                        timecyc[editionValue.LineNumber].Substring(editionValue.Index, editionValue.Length);
+                    if (editionValue.Type == EditionValueType.ILLUMINATION && editionValue.Index == 0)
+                        editionValue.EGTextBox.Text = "0";
+                    else
+                        editionValue.EGTextBox.Text =
+                           timecyc[editionValue.LineNumber].Substring(editionValue.Index, editionValue.Length);
                 }
                 SetBackColorOfPictureBoxes(pnlEdit);
             }
@@ -185,29 +180,55 @@ namespace HBMTimecycEditor
         #endregion
 
         #region PictureBoxes
+        private void SetRGB(PictureBox pb, EgoldsGoogleTextBox tbR, EgoldsGoogleTextBox tbG, EgoldsGoogleTextBox tbB)
+        {
+            tbR.Text = pb.BackColor.R.ToString();
+            tbG.Text = pb.BackColor.G.ToString();
+            tbB.Text = pb.BackColor.B.ToString();
+        }
         private void PbAmbient_BackColorChanged(object sender, EventArgs e)
         {
-            tbAmbientR.Text = pbAmbient.BackColor.R.ToString();
-            tbAmbientG.Text = pbAmbient.BackColor.G.ToString();
-            tbAmbientB.Text = pbAmbient.BackColor.B.ToString();
+            SetRGB(pbAmbient, tbAmbientR, tbAmbientG, tbAmbientB);
         }
         private void PbAmbientObj_BackColorChanged(object sender, EventArgs e)
         {
-            tbAmbientObjR.Text = pbAmbientObj.BackColor.R.ToString();
-            tbAmbientObjG.Text = pbAmbientObj.BackColor.G.ToString();
-            tbAmbientObjB.Text = pbAmbientObj.BackColor.B.ToString();
+            SetRGB(pbAmbientObj, tbAmbientObjR, tbAmbientObjG, tbAmbientObjB);
         }
         private void PbPostFX1_BackColorChanged(object sender, EventArgs e)
         {
-            tbPostFX1R.Text = pbPostFX1.BackColor.R.ToString();
-            tbPostFX1G.Text = pbPostFX1.BackColor.G.ToString();
-            tbPostFX1B.Text = pbPostFX1.BackColor.B.ToString();
+            SetRGB(pbPostFX1, tbPostFX1R, tbPostFX1G, tbPostFX1B);
         }
         private void PbPostFX2_BackColorChanged(object sender, EventArgs e)
         {
-            tbPostFX2R.Text = pbPostFX2.BackColor.R.ToString();
-            tbPostFX2G.Text = pbPostFX2.BackColor.G.ToString();
-            tbPostFX2B.Text = pbPostFX2.BackColor.B.ToString();
+            SetRGB(pbPostFX2, tbPostFX2R, tbPostFX2G, tbPostFX2B);
+        }
+        private void PbSkyBottom_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbSkyBottom, tbSkyBottomR, tbSkyBottomG, tbSkyBottomB);
+        }
+        private void PbSkyTop_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbSkyTop, tbSkyTopR, tbSkyTopG, tbSkyTopB);
+        }
+        private void PbFluffyClouds_Click(object sender, EventArgs e)
+        {
+            SetRGB(pbFluffyClouds, tbFluffyCloudsR, tbFluffyCloudsG, tbFluffyCloudsB);
+        }
+        private void PbLowClouds_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbLowClouds, tbLowCloudsR, tbLowCloudsG, tbLowCloudsB);
+        }
+        private void PbSunCorona_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbSunCorona, tbSunCoronaR, tbSunCoronaG, tbSunCoronaB);
+        }
+        private void PbSunCore_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbSunCore, tbSunCoreR, tbSunCoreG, tbSunCoreB);
+        }
+        private void PbWater_BackColorChanged(object sender, EventArgs e)
+        {
+            SetRGB(pbWater, tbWaterR, tbWaterG, tbWaterB);
         }
         #endregion
 
@@ -282,19 +303,34 @@ namespace HBMTimecycEditor
             toolTip.SetToolTip(tbFog, "Distance at which fog appears in the game [-3600; 3600]");
             toolTip.SetToolTip(tbSpriteBright, "Brightness of light from lanterns, traffic lights, etc. [-0.1; 25.4]");
             toolTip.SetToolTip(tbLightOnGround, "Brightness of the circles on the ground from lanterns, traffic lights, etc. [-0.1; 25.4]");
-            toolTip.SetToolTip(tbShadow, "The visibility of the main shadow falling from moving and some fixed objects");
-            toolTip.SetToolTip(tbLightShading, "Imaginary volume of the shadow. Works only at low effect settings");
-            toolTip.SetToolTip(tbPoleShading, "Shadow falling from lamp posts at low effect settings");
+            toolTip.SetToolTip(tbShadow, "The visibility of the main shadow falling from moving and some fixed objects [0; 255]");
+            toolTip.SetToolTip(tbLightShading, "Imaginary volume of the shadow. Works only at low effect settings [0; 255]");
+            toolTip.SetToolTip(tbPoleShading, "Shadow falling from lamp posts at low effect settings [0; 255]");
             toolTip.SetToolTip(gbAmbient, "Ambient of the world [0; 255]");
             toolTip.SetToolTip(gbAmbientObj, "Ambient of skins and vehicles [0; 255]");
-            toolTip.SetToolTip(gbPF1, "Post processing [0; 255]");
-            toolTip.SetToolTip(gbPF2, "Post processing [0; 255]");
+            toolTip.SetToolTip(gbPostFX1, "Post processing [0; 255]");
+            toolTip.SetToolTip(gbPostFX2, "Post processing [0; 255]");
+            toolTip.SetToolTip(tbSpriteSize, "Sprite size [-0.1; 12.7]");
+            toolTip.SetToolTip(tbIllumination, "Brightness of directional lighting on moving objects [0; 2.55]");
+            toolTip.SetToolTip(tbSunSize, "Sun size [-0.1; 12.7]");
+            toolTip.SetToolTip(tbUpperCloudsAlpha, "Opacity of main clouds or cloud top [0; 255]");
+            toolTip.SetToolTip(tbWaterFogAlpha, "The brightness and number of layers of white fog above the water [0; 255]");
+            toolTip.SetToolTip(gbSunCore, "The color of the inside of the sun [0; 255]");
+            toolTip.SetToolTip(gbSunCorona, "The color of the outer part of the sun, as well as the color of the glare emanating from it and the glare reflected on the water [0; 255]");
+            toolTip.SetToolTip(gbSkyTop, "Upper sky color [0; 255]");
+            toolTip.SetToolTip(gbSkyBottom, "The color of the lower part of the sky and fog [0; 255]");
+            toolTip.SetToolTip(gbLowClouds, "The color of distant, oblong clouds [0; 255]");
+            toolTip.SetToolTip(gbFluffyClouds, "The color of the top of the main, broad clouds. Not used in GTA SA [0; 255]");
+            toolTip.SetToolTip(gbWater, "Water layer color [0; 255]");
             toolTip.SetToolTip(btnEdit, "Make changes to timecyc.dat");
 
             #endregion
 
-            editionValues.AddRange(new EditionValue[21] 
+            editionValues.AddRange(new EditionValue[] 
             {
+                new EditionValue(EditionValueType.ILLUMINATION, RangeType.UNSIGNED_DOUBLE, ref tbIllumination),
+                new EditionValue(EditionValueType.WATER_FOG_ALPHA, RangeType.UNSIGNED_INT, ref tbWaterFogAlpha),
+                new EditionValue(EditionValueType.UPPER_CLOUDS_ALPHA, RangeType.UNSIGNED_INT, ref tbUpperCloudsAlpha),
                 new EditionValue(EditionValueType.POSTFX2_B, RangeType.UNSIGNED_INT, ref tbPostFX2B),
                 new EditionValue(EditionValueType.POSTFX2_G, RangeType.UNSIGNED_INT, ref tbPostFX2G),
                 new EditionValue(EditionValueType.POSTFX2_R, RangeType.UNSIGNED_INT, ref tbPostFX2R),
@@ -303,13 +339,37 @@ namespace HBMTimecycEditor
                 new EditionValue(EditionValueType.POSTFX1_G, RangeType.UNSIGNED_INT, ref tbPostFX1G),
                 new EditionValue(EditionValueType.POSTFX1_R, RangeType.UNSIGNED_INT, ref tbPostFX1R),
                 new EditionValue(EditionValueType.POSTFX1_A, RangeType.UNSIGNED_INT, ref tbPostFX1A),
-                new EditionValue(EditionValueType.LIGHT_ON_GROUND, RangeType.DOUBLE, ref tbLightOnGround),
+                new EditionValue(EditionValueType.WATER_A, RangeType.UNSIGNED_INT, ref tbWaterA),
+                new EditionValue(EditionValueType.WATER_B, RangeType.UNSIGNED_INT, ref tbWaterB),
+                new EditionValue(EditionValueType.WATER_G, RangeType.UNSIGNED_INT, ref tbWaterG),
+                new EditionValue(EditionValueType.WATER_R, RangeType.UNSIGNED_INT, ref tbWaterR),
+                new EditionValue(EditionValueType.FLUFFY_CLOUDS_B, RangeType.UNSIGNED_INT, ref tbFluffyCloudsB),
+                new EditionValue(EditionValueType.FLUFFY_CLOUDS_G, RangeType.UNSIGNED_INT, ref tbFluffyCloudsG),
+                new EditionValue(EditionValueType.FLUFFY_CLOUDS_R, RangeType.UNSIGNED_INT, ref tbFluffyCloudsR),
+                new EditionValue(EditionValueType.LOW_CLOUDS_B, RangeType.UNSIGNED_INT, ref tbLowCloudsB),
+                new EditionValue(EditionValueType.LOW_CLOUDS_G, RangeType.UNSIGNED_INT, ref tbLowCloudsG),
+                new EditionValue(EditionValueType.LOW_CLOUDS_R, RangeType.UNSIGNED_INT, ref tbLowCloudsR),
+                new EditionValue(EditionValueType.LIGHT_ON_GROUND, RangeType.UPPER_DOUBLE, ref tbLightOnGround),
                 new EditionValue(EditionValueType.FOG_DIST, RangeType.INT, ref tbFog),
                 new EditionValue(EditionValueType.DRAW_DIST, RangeType.INT, ref tbDraw),
-                new EditionValue(EditionValueType.POLE_SHADING, RangeType.INT, ref tbPoleShading),
-                new EditionValue(EditionValueType.LIGHT_SHADING, RangeType.INT, ref tbLightShading),
-                new EditionValue(EditionValueType.SHADOW, RangeType.INT, ref tbShadow),
-                new EditionValue(EditionValueType.SPRITE_BRIGHT, RangeType.DOUBLE, ref tbSpriteBright),
+                new EditionValue(EditionValueType.POLE_SHADING, RangeType.UNSIGNED_INT, ref tbPoleShading),
+                new EditionValue(EditionValueType.LIGHT_SHADING, RangeType.UNSIGNED_INT, ref tbLightShading),
+                new EditionValue(EditionValueType.SHADOW, RangeType.UNSIGNED_INT, ref tbShadow),
+                new EditionValue(EditionValueType.SPRITE_BRIGHT, RangeType.UPPER_DOUBLE, ref tbSpriteBright),
+                new EditionValue(EditionValueType.SPRITE_SIZE, RangeType.LOWER_DOUBLE, ref tbSpriteSize),
+                new EditionValue(EditionValueType.SUN_SIZE, RangeType.LOWER_DOUBLE, ref tbSunSize),
+                new EditionValue(EditionValueType.SUN_CORONA_B, RangeType.UNSIGNED_INT, ref tbSunCoronaB),
+                new EditionValue(EditionValueType.SUN_CORONA_G, RangeType.UNSIGNED_INT, ref tbSunCoronaG),
+                new EditionValue(EditionValueType.SUN_CORONA_R, RangeType.UNSIGNED_INT, ref tbSunCoronaR),
+                new EditionValue(EditionValueType.SUN_CORE_B, RangeType.UNSIGNED_INT, ref tbSunCoreB),
+                new EditionValue(EditionValueType.SUN_CORE_G, RangeType.UNSIGNED_INT, ref tbSunCoreG),
+                new EditionValue(EditionValueType.SUN_CORE_R, RangeType.UNSIGNED_INT, ref tbSunCoreR),
+                new EditionValue(EditionValueType.SKY_BOTTOM_B, RangeType.UNSIGNED_INT, ref tbSkyBottomB),
+                new EditionValue(EditionValueType.SKY_BOTTOM_G, RangeType.UNSIGNED_INT, ref tbSkyBottomG),
+                new EditionValue(EditionValueType.SKY_BOTTOM_R, RangeType.UNSIGNED_INT, ref tbSkyBottomR),
+                new EditionValue(EditionValueType.SKY_TOP_B, RangeType.UNSIGNED_INT, ref tbSkyTopB),
+                new EditionValue(EditionValueType.SKY_TOP_G, RangeType.UNSIGNED_INT, ref tbSkyTopG),
+                new EditionValue(EditionValueType.SKY_TOP_R, RangeType.UNSIGNED_INT, ref tbSkyTopR),
                 new EditionValue(EditionValueType.AMBIENT_OBJ_B, RangeType.UNSIGNED_INT, ref tbAmbientObjB),
                 new EditionValue(EditionValueType.AMBIENT_OBJ_G, RangeType.UNSIGNED_INT, ref tbAmbientObjG),
                 new EditionValue(EditionValueType.AMBIENT_OBJ_R, RangeType.UNSIGNED_INT, ref tbAmbientObjR),
@@ -327,7 +387,7 @@ namespace HBMTimecycEditor
             Click += (s, ea) => btnEdit.Focus();
             AddClickEventOnPanels(this);
 
-            AddClickEventOnAllPictureBoxes(pnlEdit);
+            AddClickEventOnAllPictureBoxes(pnlEdit, null);
 
             AddEventsOnAllTextBoxes(pnlEdit);
             foreach (var editionValue in editionValues)
@@ -487,8 +547,15 @@ namespace HBMTimecycEditor
             {
                 if (editionValue.EGTextBox.Text != "")
                 {
-                    timecyc[editionValue.LineNumber] = timecyc[editionValue.LineNumber].Remove(editionValue.Index, editionValue.Length);
-                    timecyc[editionValue.LineNumber] = timecyc[editionValue.LineNumber].Insert(editionValue.Index, editionValue.EGTextBox.Text);
+                    if (editionValue.Type == EditionValueType.ILLUMINATION && editionValue.Index == 0)
+                    {
+                        timecyc[editionValue.LineNumber] = $"{timecyc[editionValue.LineNumber]} {editionValue.EGTextBox.Text}";
+                    }
+                    else
+                    {
+                        timecyc[editionValue.LineNumber] = timecyc[editionValue.LineNumber].Remove(editionValue.Index, editionValue.Length);
+                        timecyc[editionValue.LineNumber] = timecyc[editionValue.LineNumber].Insert(editionValue.Index, editionValue.EGTextBox.Text);
+                    }
                 }
             }
         }
@@ -530,7 +597,7 @@ namespace HBMTimecycEditor
             }
         }
         /// <summary>Recursive addition Click event on all PictureBoxes on the pnlEdit</summary>
-        private void AddClickEventOnAllPictureBoxes(Control parent)
+        private void AddClickEventOnAllPictureBoxes(Control parent, Control pControl)
         {
             if (parent is PictureBox)
             {
@@ -539,13 +606,16 @@ namespace HBMTimecycEditor
                     using (var colorPicker = new frmColorPicker() { SelectedColor = parent.BackColor })
                     {
                         colorPicker.ColorChanged += (sen, ev) => parent.BackColor = colorPicker.SelectedColor;
+                        colorPicker.StartPosition = FormStartPosition.Manual;
+                        colorPicker.Location = new Point(pControl.Location.X + Location.X + pControl.Width,
+                                                         pControl.Location.Y + Location.Y - pControl.Height);
                         var result = colorPicker.ShowDialog();
                     }
                 };
             }
             foreach (Control control in parent.Controls)
             {
-                AddClickEventOnAllPictureBoxes(control);
+                AddClickEventOnAllPictureBoxes(control, parent);
             }
         }
         /// <summary>Recursive editing BackColor of all PictureBoxes on the pnlEdit</summary>
