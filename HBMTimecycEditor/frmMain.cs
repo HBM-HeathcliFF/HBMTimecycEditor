@@ -114,6 +114,8 @@ namespace HBMTimecycEditor
         private void BtnReset_Click(object sender, EventArgs e)
         {
             File.Copy($@"{backupDirectory}\timecyc.dat", timecycPath, true);
+            timecyc = File.ReadAllLines(timecycPath);
+            ComboBox_SelectedIndexChanged();
         }
         private async void BtnApply_Click(object sender, EventArgs e)
         {
@@ -244,18 +246,11 @@ namespace HBMTimecycEditor
                 timecyc = File.ReadAllLines(timecycPath);
                 CopyTimecycForBackUp();
                 pnlMain.Enabled = true;
-                if (!btnApply.Enabled)
-                    btnApply.Enabled = true;
-
-                int wSel = cbWeather.SelectedIndex;
-                if (cbWeather.SelectedIndex != 0)
-                    cbWeather.SelectedIndex = 0;
-                else
-                    cbWeather.SelectedIndex = 1;
-                cbWeather.SelectedIndex = wSel;
+                ComboBox_SelectedIndexChanged();
             }
             else
             {
+                ComboBox_SelectedIndexChanged();
                 cbWeather.SelectedIndex = 0;
                 cbTime.SelectedIndex = 0;
                 pnlMain.Enabled = false;
