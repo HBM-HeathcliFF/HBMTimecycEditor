@@ -27,7 +27,7 @@ namespace HBMTimecycEditor
         #endregion
 
         #region Variables
-        string gtaPath = "";
+        string timecycPath = "";
         readonly string backupDirectory = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Temp\HBM Timecyc Editor";
         string[] timecyc;
         List<EditionValue> editionValues = new List<EditionValue>();
@@ -42,7 +42,7 @@ namespace HBMTimecycEditor
         {
             if (cbTime.SelectedIndex > 0 && cbWeather.SelectedIndex > 0)
             {
-                GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, editionValues);
+                if (!GetPosition(cbWeather.SelectedIndex, cbTime.SelectedIndex, editionValues)) return;
 
                 foreach (var editionValue in editionValues)
                 {
@@ -76,21 +76,19 @@ namespace HBMTimecycEditor
         #region Buttons
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var ofd = new OpenFileDialog())
             {
-                fbd.Description = "Выберите папку с GTA";
-                if (gtaPath != "")
-                    fbd.SelectedPath = gtaPath;
+                ofd.Title = "Specify the path to timecyc.dat".Translate();
+                ofd.Filter = "timecyc.dat|timecyc.dat";
+                if (timecycPath != "")
+                    ofd.InitialDirectory = timecycPath.Replace("timecyc.dat", "");
                 else
-                    fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+                    ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                DialogResult result = ofd.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    if (File.Exists($@"{fbd.SelectedPath}\data\timecyc.dat"))
-                        tbPath.Text = fbd.SelectedPath;
-                    else
-                        MessageBox.Show("Указанная папка не GTA", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tbPath.Text = ofd.FileName;
                 }
             }
         }
@@ -119,7 +117,7 @@ namespace HBMTimecycEditor
         }
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            File.Copy($@"{backupDirectory}\timecyc.dat", $@"{gtaPath}\data\timecyc.dat", true);
+            File.Copy($@"{backupDirectory}\timecyc.dat", timecycPath, true);
         }
         private async void BtnApply_Click(object sender, EventArgs e)
         {
@@ -137,7 +135,7 @@ namespace HBMTimecycEditor
                             {
                                 if (Program.Weathers[i] && Program.Times[j])
                                 {
-                                    GetPosition(i + 1, j + 1, editionValues);
+                                    if (!GetPosition(i + 1, j + 1, editionValues)) return;
                                     ReplaceValues(editionValues);
                                 }
                             }
@@ -153,7 +151,7 @@ namespace HBMTimecycEditor
                             {
                                 for (int j = 1; j < cbTime.Items.Count; j++)
                                 {
-                                    GetPosition(i, j, editionValues);
+                                    if (!GetPosition(i, j, editionValues)) return;
                                     ReplaceValues(editionValues);
                                 }
                             }
@@ -164,7 +162,7 @@ namespace HBMTimecycEditor
                             {
                                 for (int i = 1; i < cbWeather.Items.Count; i++)
                                 {
-                                    GetPosition(i, cbTime.SelectedIndex, editionValues);
+                                    if (!GetPosition(i, cbTime.SelectedIndex, editionValues)) return;
                                     ReplaceValues(editionValues);
                                 }
                             }
@@ -172,14 +170,14 @@ namespace HBMTimecycEditor
                             {
                                 for (int i = 1; i < cbTime.Items.Count; i++)
                                 {
-                                    GetPosition(cbWeather.SelectedIndex, i, editionValues);
+                                    if (!GetPosition(cbWeather.SelectedIndex, i, editionValues)) return;
                                     ReplaceValues(editionValues);
                                 }
                             }
                         }
                     }
 
-                    File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
+                    File.WriteAllLines(timecycPath, timecyc);
                     Program.Message = "Done!".Translate();
                     new frmMessage().ShowDialog();
 
@@ -244,10 +242,10 @@ namespace HBMTimecycEditor
 
         private void TbPath_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists($@"{tbPath.Text}\data\timecyc.dat"))
+            if (File.Exists(tbPath.Text) && tbPath.Text.EndsWith("timecyc.dat"))
             {
-                gtaPath = tbPath.Text;
-                timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
+                timecycPath = tbPath.Text;
+                timecyc = File.ReadAllLines(timecycPath);
                 CopyTimecycForBackUp();
                 pnlMain.Enabled = true;
                 if (!btnApply.Enabled)
@@ -443,6 +441,9 @@ namespace HBMTimecycEditor
             cbTime.SelectedIndex = 0;
 
             Localization.TranslateAllControlsWithToolTips(this, ref toolTip);
+
+            if (Environment.GetCommandLineArgs().Length == 2)
+                tbPath.Text = Environment.GetCommandLineArgs()[1];
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -503,8 +504,10 @@ namespace HBMTimecycEditor
             tgglMultiselect.Refresh();
         }
         /// <summary>Get: required lines, indexes and lengths</summary>
-        private void GetPosition(int weatherIndex, int timeIndex, List<EditionValue> editionValues)
+        private bool GetPosition(int weatherIndex, int timeIndex, List<EditionValue> editionValues)
         {
+            bool isFound = false;
+
             foreach (var editionValue in editionValues)
             {
                 for (editionValue.LineNumber = 0; editionValue.LineNumber < timecyc.Length; editionValue.LineNumber++)
@@ -557,10 +560,19 @@ namespace HBMTimecycEditor
                         }
                         #endregion
 
+                        isFound = true;
                         break;
                     }
                 }
             }
+
+            if (!isFound)
+            {
+                tbPath.Text = "";
+                MessageBox.Show("File is damaged".Translate(), "Error".Translate(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return isFound;
         }
         /// <summary>Replace timecyc's draw distance value without rewrite timecyc.dat</summary>
         private void ReplaceValues(List<EditionValue> editionValues)
@@ -697,7 +709,7 @@ namespace HBMTimecycEditor
         private void CopyTimecycForBackUp()
         {
             Directory.CreateDirectory(backupDirectory);
-            File.Copy($@"{gtaPath}\data\timecyc.dat", $@"{backupDirectory}\timecyc.dat", true);
+            File.Copy(timecycPath, $@"{backupDirectory}\timecyc.dat", true);
         }
     }
 }

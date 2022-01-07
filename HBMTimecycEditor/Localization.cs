@@ -14,7 +14,7 @@ namespace HBMTimecycEditor
     {
         private static Dictionary<string, string> s_dictionaryRus = new Dictionary<string, string>()
         {
-            ["GTA path"] = "Путь к GTA",
+            ["Path to timecyc.dat"] = "Путь к timecyc.dat",
             ["Browse"] = "Обзор",
             ["Weather"] = "Погода",
             ["Time"] = "Время",
@@ -95,11 +95,14 @@ namespace HBMTimecycEditor
             ["The color of the outer part of the sun, as well as the color of the glare emanating from it and the glare reflected on the water [0; 255]"] = "Цвет внешней части солнца, а также цвет бликов, исходящих от него и бликов, отражающихся на воде [0; 255]",
             ["Sun size [-0.1; 12.7]"] = "Размер солнца [-0.1; 12.7]",
             ["Sprite size [-0.1; 12.7]"] = "Размер освещения [-0.1; 12.7]",
-            ["Make changes to timecyc.dat"] = "Внести изменения в timecyc.dat"
+            ["Make changes to timecyc.dat"] = "Внести изменения в timecyc.dat",
+            ["Error"] = "Ошибка",
+            ["File is damaged"] = "Файл повреждён",
+            ["Specify the path to timecyc.dat"] = "Укажите путь к timecyc.dat"
         };
         private static Dictionary<string, string> s_dictionaryEng = new Dictionary<string, string>()
         {
-            ["Путь к GTA"] = "GTA path",
+            ["Путь к timecyc.dat"] = "Path to timecyc.dat",
             ["Обзор"] = "Browse",
             ["Погода"] = "Weather",
             ["Время"] = "Time",
@@ -180,7 +183,10 @@ namespace HBMTimecycEditor
             ["Цвет внешней части солнца, а также цвет бликов, исходящих от него и бликов, отражающихся на воде [0; 255]"] = "The color of the outer part of the sun, as well as the color of the glare emanating from it and the glare reflected on the water [0; 255]",
             ["Размер солнца [-0.1; 12.7]"] = "Sun size [-0.1; 12.7]",
             ["Размер освещения [-0.1; 12.7]"] = "Sprite size [-0.1; 12.7]",
-            ["Внести изменения в timecyc.dat"] = "Make changes to timecyc.dat"
+            ["Внести изменения в timecyc.dat"] = "Make changes to timecyc.dat",
+            ["Ошибка"] = "Error",
+            ["Файл повреждён"] = "File is damaged",
+            ["Укажите путь к timecyc.dat"] = "Specify the path to timecyc.dat"
         };
 
         public static LocalizationLanguage Language { get; set; } = LocalizationLanguage.ENG;

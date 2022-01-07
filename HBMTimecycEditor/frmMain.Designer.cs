@@ -1579,7 +1579,7 @@ namespace HBMTimecycEditor
             this.tbPath.Size = new System.Drawing.Size(495, 40);
             this.tbPath.TabIndex = 4;
             this.tbPath.TextInput = "";
-            this.tbPath.TextPreview = "GTA path";
+            this.tbPath.TextPreview = "Path to timecyc.dat";
             this.tbPath.UseSystemPasswordChar = false;
             this.tbPath.TextChanged += new System.EventHandler(this.TbPath_TextChanged);
             // 
