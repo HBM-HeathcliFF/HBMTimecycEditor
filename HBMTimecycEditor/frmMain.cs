@@ -80,10 +80,6 @@ namespace HBMTimecycEditor
             {
                 ofd.Title = "Specify the path to timecyc.dat".Translate();
                 ofd.Filter = "timecyc.dat|timecyc.dat";
-                if (timecycPath != "")
-                    ofd.InitialDirectory = timecycPath.Replace("timecyc.dat", "");
-                else
-                    ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.OK)
