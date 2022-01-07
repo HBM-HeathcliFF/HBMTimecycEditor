@@ -28,6 +28,7 @@ namespace HBMTimecycEditor
 
         #region Variables
         string gtaPath = "";
+        readonly string backupDirectory = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Temp\HBM Timecyc Editor";
         string[] timecyc;
         List<EditionValue> editionValues = new List<EditionValue>();
         ToolTip toolTip = new ToolTip();
@@ -51,7 +52,7 @@ namespace HBMTimecycEditor
                         editionValue.EGTextBox.Text =
                            timecyc[editionValue.LineNumber].Substring(editionValue.Index, editionValue.Length);
                 }
-                SetBackColorOfPictureBoxes(pnlEdit);
+                SetBackColorOfPictureBoxes(pnlFields);
             }
             else if (!Localization.IsChanged)
             {
@@ -87,11 +88,9 @@ namespace HBMTimecycEditor
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     if (File.Exists($@"{fbd.SelectedPath}\data\timecyc.dat"))
-                    {
                         tbPath.Text = fbd.SelectedPath;
-                        UpdateFields();
-                    }
-                    else MessageBox.Show("Указанная папка не GTA", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show("Указанная папка не GTA", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -118,63 +117,74 @@ namespace HBMTimecycEditor
                 Localization.TranslateAllControlsWithToolTips(this, ref toolTip);
             }
         }
-        private void BtnEdit_Click(object sender, EventArgs e)
+        private void BtnReset_Click(object sender, EventArgs e)
+        {
+            File.Copy($@"{backupDirectory}\timecyc.dat", $@"{gtaPath}\data\timecyc.dat", true);
+        }
+        private async void BtnApply_Click(object sender, EventArgs e)
         {
             if (TextBoxesFilled())
             {
-                if (tgglMultiselect.Checked)
+                await Task.Run(() =>
                 {
-                    for (int i = 0; i < Program.Weathers.Length; i++)
+                    pnlMain.Enabled = false;
+
+                    if (tgglMultiselect.Checked)
                     {
-                        for (int j = 0; j < Program.Times.Length; j++)
+                        for (int i = 0; i < Program.Weathers.Length; i++)
                         {
-                            if (Program.Weathers[i] && Program.Times[j])
+                            for (int j = 0; j < Program.Times.Length; j++)
                             {
-                                GetPosition(i + 1, j + 1, editionValues);
-                                ReplaceValues(editionValues);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (cbWeather.SelectedIndex > 0 && cbTime.SelectedIndex > 0)
-                        ReplaceValues(editionValues);
-                    else if (cbWeather.SelectedIndex == 0 && cbTime.SelectedIndex == 0)
-                    {
-                        for (int i = 1; i < cbWeather.Items.Count; i++)
-                        {
-                            for (int j = 1; j < cbTime.Items.Count; j++)
-                            {
-                                GetPosition(i, j, editionValues);
-                                ReplaceValues(editionValues);
+                                if (Program.Weathers[i] && Program.Times[j])
+                                {
+                                    GetPosition(i + 1, j + 1, editionValues);
+                                    ReplaceValues(editionValues);
+                                }
                             }
                         }
                     }
                     else
                     {
-                        if (cbWeather.SelectedIndex == 0)
+                        if (cbWeather.SelectedIndex > 0 && cbTime.SelectedIndex > 0)
+                            ReplaceValues(editionValues);
+                        else if (cbWeather.SelectedIndex == 0 && cbTime.SelectedIndex == 0)
                         {
                             for (int i = 1; i < cbWeather.Items.Count; i++)
                             {
-                                GetPosition(i, cbTime.SelectedIndex, editionValues);
-                                ReplaceValues(editionValues);
+                                for (int j = 1; j < cbTime.Items.Count; j++)
+                                {
+                                    GetPosition(i, j, editionValues);
+                                    ReplaceValues(editionValues);
+                                }
                             }
                         }
                         else
                         {
-                            for (int i = 1; i < cbTime.Items.Count; i++)
+                            if (cbWeather.SelectedIndex == 0)
                             {
-                                GetPosition(cbWeather.SelectedIndex, i, editionValues);
-                                ReplaceValues(editionValues);
+                                for (int i = 1; i < cbWeather.Items.Count; i++)
+                                {
+                                    GetPosition(i, cbTime.SelectedIndex, editionValues);
+                                    ReplaceValues(editionValues);
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 1; i < cbTime.Items.Count; i++)
+                                {
+                                    GetPosition(cbWeather.SelectedIndex, i, editionValues);
+                                    ReplaceValues(editionValues);
+                                }
                             }
                         }
                     }
-                }
 
-                File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
-                Program.Message = "Done!".Translate();
-                new frmMessage().ShowDialog();
+                    File.WriteAllLines($@"{gtaPath}\data\timecyc.dat", timecyc);
+                    Program.Message = "Done!".Translate();
+                    new frmMessage().ShowDialog();
+
+                    pnlMain.Enabled = true;
+                });
             }
         }
         #endregion
@@ -232,9 +242,35 @@ namespace HBMTimecycEditor
         }
         #endregion
 
+        private void TbPath_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists($@"{tbPath.Text}\data\timecyc.dat"))
+            {
+                gtaPath = tbPath.Text;
+                timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
+                CopyTimecycForBackUp();
+                pnlMain.Enabled = true;
+                if (!btnApply.Enabled)
+                    btnApply.Enabled = true;
+
+                int wSel = cbWeather.SelectedIndex;
+                if (cbWeather.SelectedIndex != 0)
+                    cbWeather.SelectedIndex = 0;
+                else
+                    cbWeather.SelectedIndex = 1;
+                cbWeather.SelectedIndex = wSel;
+            }
+            else
+            {
+                cbWeather.SelectedIndex = 0;
+                cbTime.SelectedIndex = 0;
+                pnlMain.Enabled = false;
+            }
+        }
+
         private async void TgglMultiselect_CheckedChanged(object sender)
         {
-            int Y = pnlEdit.Location.Y, defHeight = Height;
+            int Y = pnlFields.Location.Y, defHeight = Height;
 
             MaximumSize = new Size(0, 0);
             MinimumSize = new Size(0, 0);
@@ -242,14 +278,14 @@ namespace HBMTimecycEditor
             if (tgglMultiselect.Checked)
             {
                 pnlOneSelect.Visible = false;
-                while (pnlEdit.Location.Y > Y - OFFSET)
+                while (pnlFields.Location.Y > Y - OFFSET)
                 {
                     await Task.Delay(10);
-                    Height -= pnlEdit.Location.Y / 5;
-                    pnlEdit.Location = new Point(pnlEdit.Location.X,
-                        pnlEdit.Location.Y - pnlEdit.Location.Y / 5);
+                    Height -= pnlFields.Location.Y / 5;
+                    pnlFields.Location = new Point(pnlFields.Location.X,
+                        pnlFields.Location.Y - pnlFields.Location.Y / 5);
                 }
-                pnlEdit.Location = new Point(pnlEdit.Location.X, Y - OFFSET);
+                pnlFields.Location = new Point(pnlFields.Location.X, Y - OFFSET);
                 Height = defHeight - OFFSET;
 
                 MaximumSize = Size;
@@ -263,14 +299,14 @@ namespace HBMTimecycEditor
             else
             {
                 pnlOneSelect.Visible = true;
-                while (pnlEdit.Location.Y < Y + OFFSET)
+                while (pnlFields.Location.Y < Y + OFFSET)
                 {
                     await Task.Delay(10);
-                    this.Height += (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1;
-                    pnlEdit.Location = new Point(pnlEdit.Location.X,
-                        pnlEdit.Location.Y + (Y + OFFSET - pnlEdit.Location.Y) / 4 + 1);
+                    this.Height += (Y + OFFSET - pnlFields.Location.Y) / 4 + 1;
+                    pnlFields.Location = new Point(pnlFields.Location.X,
+                        pnlFields.Location.Y + (Y + OFFSET - pnlFields.Location.Y) / 4 + 1);
                 }
-                pnlEdit.Location = new Point(pnlEdit.Location.X, Y + OFFSET);
+                pnlFields.Location = new Point(pnlFields.Location.X, Y + OFFSET);
                 this.Height = defHeight + OFFSET;
 
                 tgglMultiselect.Text = "Multiselect".Translate();
@@ -322,7 +358,7 @@ namespace HBMTimecycEditor
             toolTip.SetToolTip(gbLowClouds, "The color of distant, oblong clouds [0; 255]");
             toolTip.SetToolTip(gbFluffyClouds, "The color of the top of the main, broad clouds. Not used in GTA SA [0; 255]");
             toolTip.SetToolTip(gbWater, "Water layer color [0; 255]");
-            toolTip.SetToolTip(btnEdit, "Make changes to timecyc.dat");
+            toolTip.SetToolTip(btnApply, "Make changes to timecyc.dat");
 
             #endregion
 
@@ -384,12 +420,12 @@ namespace HBMTimecycEditor
 
             #region Adding events
             // Remove focus from controls when clicking on a panel/form
-            Click += (s, ea) => btnEdit.Focus();
+            Click += (s, ea) => btnApply.Focus();
             AddClickEventOnPanels(this);
 
-            AddClickEventOnAllPictureBoxes(pnlEdit, null);
+            AddClickEventOnAllPictureBoxes(pnlFields, null);
 
-            AddEventsOnAllTextBoxes(pnlEdit);
+            AddEventsOnAllTextBoxes(pnlFields);
             foreach (var editionValue in editionValues)
             {
                 editionValue.EGTextBox.Click += (s, e) =>
@@ -407,6 +443,12 @@ namespace HBMTimecycEditor
             cbTime.SelectedIndex = 0;
 
             Localization.TranslateAllControlsWithToolTips(this, ref toolTip);
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Directory.Exists(backupDirectory))
+                Directory.Delete(backupDirectory, true);
         }
 
         /// <summary>Protection against restarting the application with the subsequent activation of an existing window</summary>
@@ -446,14 +488,11 @@ namespace HBMTimecycEditor
                             btnLocalization.Text = "АНГ";
                             break;
                     }
-                    gtaPath = key.GetValue("path").ToString();
                 }
-                tbPath.Text = gtaPath;
-                timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
             }
             catch (Exception)
             {
-                pnlDrawDist.Visible = false;
+                pnlMain.Visible = false;
             }
         }
         /// <summary>Turns off toggle switch with dimming</summary>
@@ -523,23 +562,6 @@ namespace HBMTimecycEditor
                 }
             }
         }
-        /// <summary>Update path and draw dist value and re-read timecyc.dat</summary>
-        private void UpdateFields()
-        {
-            gtaPath = tbPath.Text;
-            timecyc = File.ReadAllLines($@"{gtaPath}\data\timecyc.dat");
-            Registry.CurrentUser.CreateSubKey(@"Software\HBMTimecycEditor").SetValue("path", gtaPath);
-            pnlDrawDist.Visible = true;
-            if (!btnEdit.Enabled)
-                btnEdit.Enabled = true;
-
-            int wSel = cbWeather.SelectedIndex;
-            if (cbWeather.SelectedIndex != 0)
-                cbWeather.SelectedIndex = 0;
-            else
-                cbWeather.SelectedIndex = 1;
-            cbWeather.SelectedIndex = wSel;
-        }
         /// <summary>Replace timecyc's draw distance value without rewrite timecyc.dat</summary>
         private void ReplaceValues(List<EditionValue> editionValues)
         {
@@ -566,7 +588,7 @@ namespace HBMTimecycEditor
                 parent.Click += (s, e) => 
                 {
                     EditionValue.CheckValidData(editionValues);
-                    btnEdit.Focus();
+                    btnApply.Focus();
                 };
             foreach (Panel panel in parent.Controls.OfType<Panel>())
             {
@@ -583,7 +605,7 @@ namespace HBMTimecycEditor
                     if (e.KeyCode == Keys.Enter)
                     {
                         EditionValue.CheckValidData(editionValues);
-                        btnEdit.Focus();
+                        btnApply.Focus();
                     }
                 };
                 parent.LostFocus += (s, e) =>
@@ -670,6 +692,12 @@ namespace HBMTimecycEditor
             }
 
             return existNotEmpty;
+        }
+        /// <summary>Create a copy of the timecyc.dat for backup</summary>
+        private void CopyTimecycForBackUp()
+        {
+            Directory.CreateDirectory(backupDirectory);
+            File.Copy($@"{gtaPath}\data\timecyc.dat", $@"{backupDirectory}\timecyc.dat", true);
         }
     }
 }
